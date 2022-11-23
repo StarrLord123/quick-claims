@@ -1,0 +1,19 @@
+.claimsTable {
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #999;
+    border-collapse: collapse;
+}
+
+.claimsTable td, .claimsTable th {
+    padding: 3px;
+    border: 1px solid #999;
+}
+
+.claimsStatusSelector {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    max-width: fit-content;
+}

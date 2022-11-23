@@ -1,38 +1,96 @@
-.App {
-  text-align: center;
+body {
+  background: #ccc;
+  font-family: 'Poppins', sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.container {
+  width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  background: rgb(191, 228, 243);
+  border: 1px #000 solid;
+  padding: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.container.heading {
+  padding: 10px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.container.footer {
+  padding: 20px;
+  background: grey;
+}
+
+.container.form {
+  width: 600px;
+}
+
+.container.table {
+  border: none;
+  width: 400px;
+}
+
+form label {
+  color: #000;
+  font-weight: bold;
+  width: 300px;
+  display: block;
+  float: left;
+  margin-right: 10px;
+}
+
+form label.radio-label {
+  display: inline-block;
+  float: none;
+  width: fit-content;
+}
+
+input[type="radio"] {
+  display: inline-block;
+}
+
+input, select {
+  margin-bottom: 10px;
+  display: block;
+}
+
+td, th, thead, tbody {
+  border: 2px solid #000;    
+}
+table {
+  border: 2px solid #000; 
+}
+
+.tableHeading {
+  cursor: pointer;
+}
+
+.button {
+  background-color: #000000;
+  border: none;
   color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
 }
 
-.App-link {
-  color: #61dafb;
+.button:hover {
+  background-color: grey; 
+  color: #000000;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+@media only screen and (min-width: 769px) and (max-width: 1024px){
+.container {
+width:  600px;
+}
+}
+
+@media only screen and (max-width: 768px) {
+.container {
+width: 95%;
+}
 }
