@@ -1,13 +1,14 @@
-import Menu from './components/Menu';
+import Menu from './components/Menu/Menu';
 import NewClaim from './components/NewClaim';
-import Footer from './components/Footer';
+import ClaimSearch from './components/ClaimSearch/ClaimSearch';
+import Footer from './components/Footer/Footer';
 import './App.css';
 
 function App() {
   return (
     <div>
       <Menu />
-      <NewClaim />
+      <ClaimSearch />
       <Footer />
     </div>
   );

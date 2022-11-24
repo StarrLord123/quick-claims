@@ -1,3 +1,5 @@
+import { NavLink } from "react-bootstrap";
+
 const Menu = () => {
     return (
     <div>
@@ -11,13 +13,13 @@ const Menu = () => {
         </div>
         <div class="container bg-black heading d-flex flex-row justify-content-between align-items-left">
             <div>
-                <button class="button">NEW CLAIM</button>
+                <button class="button"><NavLink to="/newclaim">NEW CLAIM</NavLink></button>
             </div>
             <div>
                 <button class="button">OPEN CLAIMS</button>
             </div>
             <div>
-                <button class="button">SEARCH</button>
+                <button class="button"><NavLink to="/search">SEARCH</NavLink></button>
             </div>
             <div>
                 <button class="button">ARCHIVE</button>
