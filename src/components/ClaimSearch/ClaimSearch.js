@@ -1,11 +1,13 @@
 import Claims from "./Claims";
+import React from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const ClaimSearch = () => {
     return (
     <div>
         <div className="container">
             <div className="text-center">
-                <h1>Search</h1>
+                <h1>Search claims</h1>
             </div>
             
             <div className="container form">

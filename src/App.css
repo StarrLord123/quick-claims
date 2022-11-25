@@ -68,7 +68,7 @@ table {
 .button {
   background-color: #000000;
   border: none;
-  color: white;
+  color: white !important;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
@@ -80,7 +80,7 @@ table {
 
 .button:hover {
   background-color: grey; 
-  color: #000000;
+  color: #000000 !important;
 }
 
 @media only screen and (min-width: 769px) and (max-width: 1024px){

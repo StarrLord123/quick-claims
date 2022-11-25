@@ -1,0 +1,19 @@
+.openClaimsTable {
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #999;
+    border-collapse: collapse;
+}
+
+.openClaimsTable td, .openClaimsTable th {
+    padding: 3px;
+    border: 1px solid #999;
+}
+
+.openClaimsStatusSelector {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    max-width: fit-content;
+}
