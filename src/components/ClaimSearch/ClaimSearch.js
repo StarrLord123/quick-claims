@@ -1,8 +1,37 @@
 import Claims from "./Claims";
-import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
+import React, {useState} from "react";
+import { useNavigate } from 'react-router-dom';
 
-const ClaimSearch = () => {
+const ClaimSearch = (props) => {
+
+    const [localSearchTerm, setLocalSearchTerm] = useState("");
+    const [valid, setValid] = useState(true);
+    const [touched, setTouched] = useState(false);
+    const navigate = useNavigate();
+
+    const checkValidity = (value) => {
+        setValid(value.trim().length > 0);
+    }
+
+    const doSearch = (event) => {
+        event.preventDefault();
+        props.setSearchTerm(localSearchTerm);
+        navigate(`/claimsearch/${localSearchTerm}`);
+    }
+
+    const handleChange = (event) => {
+        setTouched(true);
+        setLocalSearchTerm(event.target.value);
+        checkValidity(event.target.value);
+    }
+
+    const clearForm = () => {
+        setLocalSearchTerm("");
+        setTouched(false);
+        setValid(true);
+        props.setSearchTerm("");
+    }
+
     return (
     <div>
         <div className="container">
@@ -11,19 +40,22 @@ const ClaimSearch = () => {
             </div>
             
             <div className="container form">
-                <form action="somepage.html" method="get">
-                    <p>Enter a policy number or part of the customer's surname</p>
+                <form onSubmit={doSearch}>
+                    <p>Enter a policy number</p>
 
                     <label htmlFor="policyNumber" >Policy Number *</label>
-                    <input type="text" name="policyNumber" id="policyNumber" placeholder="policy number" />
+                    <input type="text" name="policyNumber" id="policyNumber" placeholder="policy number" 
+                        onChange={handleChange} value={localSearchTerm}  className={!valid ? 'searchBoxError' : ''} />
 
-                    <label htmlFor="surname" >Surname *</label>
-                    <input type="text" name="surname" id="surname" placeholder="surname" />
+                    {/* <label htmlFor="surname" >Surname *</label>
+                    <input type="text" name="surname" id="surname" placeholder="surname" 
+                    value={props.searchTerm} onChange={handleChange} className={!valid ? 'searchBoxError' : ''}/> */}
 
-                    <button className="button text-center">Search</button>
+                    <button type="submit" disabled={!valid || !touched} className="button text-center">Search</button>
+                    <button className="button text-center" onClick={clearForm} >Reset</button>
                 </form>
             </div>  
-            <Claims />
+            <Claims searchTerm={localSearchTerm} setSearchTerm={localSearchTerm}/>
         </div>
     </div>);
 }

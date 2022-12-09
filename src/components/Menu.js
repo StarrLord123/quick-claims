@@ -1,14 +1,9 @@
 import { Outlet, NavLink } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "../App.css";
 import Footer from "./Footer/Footer";
 
 const Menu = () => 
 {
-    const style = ({ isActive }) => ({
-        fontWeight: isActive ? 'bold' : 'normal',
-    })
-
     return (
     <div>
         <div className="container bg-light heading d-flex flex-row justify-content-between align-items-center">

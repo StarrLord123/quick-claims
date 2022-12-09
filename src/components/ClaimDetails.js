@@ -1,5 +1,4 @@
 import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { getAllClaims } from "../data/DataFunctions";
 import { useParams } from "react-router-dom";
 
@@ -10,7 +9,7 @@ const ClaimDetails = () =>
 
    const claims = getAllClaims();
 
-   const claim = claims.find(claim => claim.policyNumber === parseInt(claimId))
+   const claim = claims.find(claim => claim.policyNumber === +claimId)
 
    return <div>
         <div className="container">
@@ -19,10 +18,14 @@ const ClaimDetails = () =>
             </div>
             
             <div className="container form">
-                <h1>Policy Number: {claim.policyNumber}</h1>
-                <h1>Surname: {claim.surname}</h1>
-                <h1>Updates: {claim.updates}</h1>
-                <h1>Status: {claim.status}</h1>
+                <h2>Policy Number: {claim.policyNumber}</h2>
+                <h2>Insurance Type: {claim.insuranceType}</h2>
+                <h2>Forename: {claim.forename}</h2>
+                <h2>Surname: {claim.surname}</h2>
+                <h2>Amount: {claim.amount}</h2>
+                <h2>Reason: {claim.reason}</h2>
+                <h2>Updates: {claim.updates}</h2>
+                <h2>Status: {claim.status}</h2>
             </div>
         </div>
     </div>

@@ -1,6 +1,5 @@
 import React from "react";
 import "../App.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 const NewClaim = () => {
     return (
@@ -18,7 +17,7 @@ const NewClaim = () => {
 
                     <label htmlFor="title">Title *</label>
                     <select id="title" name="title" required>
-                    <option value="" disabled={false}> ---select---</option>
+                    <option value="" disabled={true}> ---select---</option>
                         <option value="mr">Mr</option>
                         <option value="ms">Ms</option>
                         <option value="mx">Mx</option>
