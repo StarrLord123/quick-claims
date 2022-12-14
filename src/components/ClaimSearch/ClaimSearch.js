@@ -43,8 +43,8 @@ const ClaimSearch = (props) => {
                 <form onSubmit={doSearch}>
                     <p>Enter a policy number</p>
 
-                    <label htmlFor="policyNumber" >Policy Number *</label>
-                    <input type="text" name="policyNumber" id="policyNumber" placeholder="policy number" 
+                    <label htmlFor="searchTerm" >Policy Number *</label>
+                    <input type="text" name="searchTerm" id="searchTerm" placeholder="policy number" 
                         onChange={handleChange} value={localSearchTerm}  className={!valid ? 'searchBoxError' : ''} />
 
                     {/* <label htmlFor="surname" >Surname *</label>

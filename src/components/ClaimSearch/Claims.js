@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 const Claims = (props) => {
 
     const [claims, setClaims] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
 
     const allClaims = getAllClaims();
 
@@ -16,7 +15,6 @@ const Claims = (props) => {
 
     useEffect(() => {
         if(props.searchTerm !== "") {
-            setIsLoading(true);
             const claim = allClaims.filter((claim) => {
                       return (
                         claim.policyNumber.toString().includes(props.searchTerm)
@@ -24,7 +22,7 @@ const Claims = (props) => {
                     });
             setClaims(claim);
         }
-        else return loadClaims;
+        else loadClaims();
     }, [props.searchTerm])
 
     // const loadClaim = (searchTerm) => {

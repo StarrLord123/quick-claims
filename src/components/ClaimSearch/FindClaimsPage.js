@@ -8,7 +8,7 @@ const params = useParams();
 
 useEffect( ()=> {
     if (params.policyNumber != null && params.policyNumber !== props.searchTerm) {
-        props.setSearchTerm(params.policyNumber);
+        props.setSearchTerm(props.searchTerm);
     }
 } , [params.policyNumber]);
 
@@ -16,7 +16,7 @@ return (
 
         <div className="container">
             <div className="text-center">
-                <h1>Claim {props.searchTerm}</h1>
+                <h1>Search results for: {props.searchTerm}</h1>
             </div>
 
             <Claims searchTerm={props.searchTerm}  />

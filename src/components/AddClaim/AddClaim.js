@@ -1,12 +1,11 @@
 import { useReducer, useState } from 'react'
-import { addNewTransaction } from '../../data/DataFunctions'
-import './AddTransaction.css'
+import './AddClaim.css'
 
-const AddTransaction = () => {
+const AddClaim = () => {
 
     const [message, setMessage] = useState("");
 
-    const initialNewTransactionState = {orderId : "", 
+    const initialNewClaimState = {policyNumber : "", 
     date : new Date().toISOString().slice(0,10) , amount : "0",
     country: "", currency: "", taxCode: "0", taxRate: "0.20", type : "SALE"}
 
