@@ -3,7 +3,7 @@ import {useState} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Menu from './components/Menu';
 import Welcome from "./components/Welcome";
-import NewClaim from './components/NewClaim';
+import AddClaim from './components/AddClaim/AddClaim';
 import OpenClaims from './components/OpenClaims/OpenClaims';
 import ClaimSearch from './components/ClaimSearch/ClaimSearch';
 import ClaimDetails from "./components/ClaimDetails";
@@ -17,7 +17,7 @@ const App = () => {
     <Routes> 
       <Route element = {<Menu />}>
         <Route index element={<Welcome/>} />
-          <Route path="/newclaim" element={<NewClaim/>} />
+          <Route path="/addclaim" element={<AddClaim/>} />
           <Route path="/openclaims" element={<OpenClaims/>} />
           <Route path="/claimsearch" 
               element={<ClaimSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm} />} />

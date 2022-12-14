@@ -16,7 +16,7 @@ const Menu = () =>
         </div>
         <nav>
             <div className="container bg-black heading d-flex flex-row justify-content-between align-items-left">
-                <button className="button"><NavLink to="/newclaim">NEW CLAIM</NavLink></button>
+                <button className="button"><NavLink to="/addclaim">ADD CLAIM</NavLink></button>
                 <button className="button"><NavLink to="/openclaims">OPEN CLAIMS</NavLink></button>
                 <button className="button"><NavLink to="/claimsearch">SEARCH CLAIMS</NavLink></button>
             </div>
