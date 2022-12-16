@@ -1,5 +1,5 @@
 import Claims from "./Claims";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
 const ClaimSearch = (props) => {
@@ -41,15 +41,11 @@ const ClaimSearch = (props) => {
             
             <div className="container form">
                 <form onSubmit={doSearch}>
-                    <p>Enter a policy number</p>
+                    <p>Enter a search term</p>
 
-                    <label htmlFor="searchTerm" >Policy Number *</label>
+                    <label htmlFor="searchTerm" >Search Term (Policy Number, Surname)</label>
                     <input type="text" name="searchTerm" id="searchTerm" placeholder="policy number" 
                         onChange={handleChange} value={localSearchTerm}  className={!valid ? 'searchBoxError' : ''} />
-
-                    {/* <label htmlFor="surname" >Surname *</label>
-                    <input type="text" name="surname" id="surname" placeholder="surname" 
-                    value={props.searchTerm} onChange={handleChange} className={!valid ? 'searchBoxError' : ''}/> */}
 
                     <button type="submit" disabled={!valid || !touched} className="button text-center">Search</button>
                     <button className="button text-center" onClick={clearForm} >Reset</button>

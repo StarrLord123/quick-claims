@@ -6,7 +6,7 @@ import Welcome from "./components/Welcome";
 import AddClaim from './components/AddClaim/AddClaim';
 import OpenClaims from './components/OpenClaims/OpenClaims';
 import ClaimSearch from './components/ClaimSearch/ClaimSearch';
-import ClaimDetails from "./components/ClaimDetails";
+import ClaimDetails from "./components/ClaimDetails/ClaimDetails";
 import FindClaimsPage from "./components/ClaimSearch/FindClaimsPage";
 
 const App = () => {

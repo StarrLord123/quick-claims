@@ -12,6 +12,12 @@ useEffect( ()=> {
     }
 } , [params.policyNumber]);
 
+useEffect ( () => {
+    if (params.policyNumber != null) {
+        props.setSearchTerm(params.policyNumber)
+    }
+} , []);
+
 return (
 
         <div className="container">
@@ -21,7 +27,6 @@ return (
 
             <Claims searchTerm={props.searchTerm}  />
         </div>
-
     );
 }
 

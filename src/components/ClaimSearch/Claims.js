@@ -1,5 +1,5 @@
 import './ClaimSearch.css';
-import {getAllClaims} from './../../data/DataFunctions';
+import {getAllClaims} from '../../data/DataFunctions';
 import ClaimSearchTableRow from "./ClaimSearchTableRow";
 import { useEffect, useState } from 'react';
 
@@ -17,36 +17,14 @@ const Claims = (props) => {
         if(props.searchTerm !== "") {
             const claim = allClaims.filter((claim) => {
                       return (
-                        claim.policyNumber.toString().includes(props.searchTerm)
+                        claim.policyNumber.toString().includes(props.searchTerm) ||
+                        claim.surname.toLowerCase().includes(props.searchTerm.toLowerCase())
                       );
                     });
             setClaims(claim);
         }
         else loadClaims();
     }, [props.searchTerm])
-
-    // const loadClaim = (searchTerm) => {
-    //     const claim = allClaims.filter((claim) => {
-    //       return (
-    //         claim.policyNumber.toString().includes(searchTerm)
-    //       );
-    //     });
-    //     console.log("Claim", claim)
-    //   }
-
-    // useEffect(() => {
-    //     if(props.searchTerm !== "") {
-    //         setIsLoading(true);
-    //         loadClaim(props.searchTerm)
-    //             .then(response => {
-    //                 setClaims(response.data);
-    //                 setIsLoading(false)
-    //             })
-    //             .catch( error => {
-    //                 console.log("Something went wrong", error)
-    //             })
-    //     }
-    // }, [props.searchTerm])
 
     const loadClaims = () => {
         setClaims(allClaims);
