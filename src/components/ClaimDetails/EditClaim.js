@@ -1,9 +1,10 @@
 import { useReducer, useState, useEffect } from 'react'
 import { getAllClaims } from '../../data/DataFunctions';
 import { useParams } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import './EditClaim.css'
 
-const EditClaim = () => {
+const EditClaim = (props) => {
 
     const params = useParams();
     const claimId = params.policyNumber;
@@ -11,18 +12,26 @@ const EditClaim = () => {
     const claims = getAllClaims();
  
     const claim = claims.find(claim => claim.policyNumber === +claimId)
+    const navigate = useNavigate();
     
-    const initialEditClaimState = {policyNumber : params.policyNumber, 
-        date : new Date().toISOString().slice(0,10) , insuranceType: claim.insuranceType, 
-        title: claim.title, forename : claim.forename, surname: claim.surname, amount: claim.amount, reason : claim.reason,
-        updates : claim.updates,  status : claim.status}
+    const initialEditClaimState = {
+        policyNumber : claim.policyNumber, 
+        date : new Date().toISOString().slice(0,10) , 
+        insuranceType: claim.insuranceType, 
+        title: claim.title, 
+        forename : claim.forename, 
+        surname: claim.surname, 
+        amount: claim.amount, 
+        reason : claim.reason,
+        updates : claim.updates,  
+        status : claim.status
+    }
 
     const formReducer = (state, data) => {
         return {...state, [data.field] : data.value}
     }
 
     const [editClaim, dispatch] = useReducer(formReducer, initialEditClaimState);
-    
 
     const handleChange = (event) => {
        dispatch({field : event.target.id, value : event.target.value});
@@ -30,9 +39,15 @@ const EditClaim = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        dispatch({field : event.target.id, value : event.target.value});
-        console.log(claims)
+        
+        const updatedClaims = props.newClaims.filter(
+            (claim, index) => claim.policyNumber !== editClaim.policyNumber
+        )
+
+        props.setNewClaims([...updatedClaims, editClaim]);
+        navigate(`/claim/${claim.policyNumber}`)
     } 
+    console.log(props.newClaims);
 
     return <div>
         <div className="container">

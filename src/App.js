@@ -9,10 +9,12 @@ import ClaimSearch from './components/ClaimSearch/ClaimSearch';
 import ClaimDetails from "./components/ClaimDetails/ClaimDetails";
 import EditClaim from "./components/ClaimDetails/EditClaim";
 import FindClaimsPage from "./components/ClaimSearch/FindClaimsPage";
+import { getAllClaims } from "./data/DataFunctions";
 
 const App = () => {
 
   const [searchTerm, setSearchTerm] = useState("");
+  const [newClaims, setNewClaims] = useState(getAllClaims);
 
   return (
     <Routes> 
@@ -25,7 +27,7 @@ const App = () => {
           <Route path="/claimsearch/:policyNumber" 
               element={<FindClaimsPage searchTerm={searchTerm} setSearchTerm={setSearchTerm} />} />
           <Route path="/claim/:policyNumber" element={<ClaimDetails/>} />
-          <Route path="/edit/:policyNumber" element={<EditClaim/>} />
+          <Route path="/edit/:policyNumber" element={<EditClaim newClaims={newClaims} setNewClaims={setNewClaims}/>} />
           <Route path="*" element = { <div className="container"><h1>Sorry - that page doesn't exist</h1></div>}/>
       </Route>
     </Routes>
