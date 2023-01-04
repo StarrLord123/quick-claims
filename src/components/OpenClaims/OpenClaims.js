@@ -6,14 +6,14 @@ import OpenClaimsTableRow from "./OpenClaimsTableRow";
 const Claims = () => {
 
     const claims = getAllClaims();
-    const allClaimsStatus = claims.map(claim => claim.status);
-    const uniqueStatus = allClaimsStatus.filter((status, index) => allClaimsStatus.indexOf(status) === index);
+    const allClaimsInsuranceType = claims.map(claim => claim.insuranceType);
+    const uniqueInsuranceType = allClaimsInsuranceType.filter((insuranceType, index) => allClaimsInsuranceType.indexOf(insuranceType) === index);
 
-    const [selectedStatus, setSelectedStatus] = useState(uniqueStatus[0])
+    const [selectedInsuranceType, setSelectedInsuranceType] = useState(uniqueInsuranceType[0])
 
-    const changeStatus = (e) => {
+    const changeInsuranceType = (e) => {
         const option = e.target.options.selectedIndex;
-        setSelectedStatus(uniqueStatus[option]);
+        setSelectedInsuranceType(uniqueInsuranceType[option]);
     }
 
     return (
@@ -24,15 +24,16 @@ const Claims = () => {
                 </div>
                 <div className="container form">
 
-                    <div className="openClaimsStatusSelector">
-                        Select status: <select onChange={changeStatus}>
-                        {uniqueStatus.map (status => <option key={status} value={status}>{status}</option>)}
+                    <div className="openClaimsInsuranceTypeSelector">
+                        Select Insurance Type: <select onChange={changeInsuranceType}>
+                        {uniqueInsuranceType.map (insuranceType => <option key={insuranceType} value={insuranceType}>{insuranceType}</option>)}
                         </select>
                     </div>
                     <table className="openClaimsTable">
                         <thead>
                         <tr>
-                            <th>Policy Number</th>
+                            <th>Policy #</th>
+                            <th>Type</th>
                             <th>Surname</th>
                             <th>Updates</th>
                             <th>Status</th>
@@ -41,9 +42,9 @@ const Claims = () => {
                         </thead>
                         <tbody>
                         {claims
-                            .filter (claim => claim.status === selectedStatus)
+                            .filter (claim => claim.status === "Open")
                             .map( (claim, index)  => {
-                            return claim.status === selectedStatus && <OpenClaimsTableRow key={index} policyNumber={claim.policyNumber} surname={claim.surname} 
+                            return claim.insuranceType === selectedInsuranceType && <OpenClaimsTableRow key={index} policyNumber={claim.policyNumber} insuranceType={claim.insuranceType} surname={claim.surname} 
                             updates={claim.updates} status={claim.status} details/> })}
                         </tbody>
                     </table>

@@ -80,8 +80,11 @@ const AddClaim = () => {
                 <input type="text"  id="updates" value={newClaim.updates} onChange={handleChange} />
 
                 <label htmlFor="status">Status *</label>
-                <input type="text"  id="status" value={newClaim.status} onChange={handleChange} />
-                <br/>
+                <select id="status" value={newClaim.status} onChange={handleChange}>
+                <option value="" disabled={false}> ---select---</option>
+                    <option value="Open">Open</option>
+                    <option value="Closed">Closed</option>
+                </select>
 
                 <button className="button text-center" type="submit" >Save</button>
             </form>

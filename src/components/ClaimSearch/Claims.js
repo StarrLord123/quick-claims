@@ -17,8 +17,7 @@ const Claims = (props) => {
         if(props.searchTerm !== "") {
             const claim = allClaims.filter((claim) => {
                       return (
-                        claim.policyNumber.toString().includes(props.searchTerm) ||
-                        claim.surname.toLowerCase().includes(props.searchTerm.toLowerCase())
+                        claim.policyNumber.toString().includes(props.searchTerm)
                       );
                     });
             setClaims(claim);

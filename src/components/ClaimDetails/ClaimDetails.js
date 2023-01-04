@@ -1,6 +1,6 @@
-import React from "react";
+import React, {useState} from "react";
 import { getAllClaims } from "../../data/DataFunctions";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate, NavLink } from "react-router-dom";
 
 const ClaimDetails = () =>  
 {
@@ -11,11 +11,12 @@ const ClaimDetails = () =>
 
    const claim = claims.find(claim => claim.policyNumber === +claimId)
 
-//    const doEdit = (event) => {
-//     event.preventDefault();
-//     props.setSearchTerm(localSearchTerm);
-//     navigate(`/claimedit/${localSearchTerm}`);
-// }
+   const navigate = useNavigate();
+
+   const doEdit = (event) => {
+    event.preventDefault();
+    navigate(`/editclaim/${claimId}`);
+    }
 
    return <div>
             <div className="container">
@@ -26,7 +27,6 @@ const ClaimDetails = () =>
                     <div className="text-center">
                         <h2>Policy Number {claim.policyNumber}</h2>
                     </div>
-                    <div>
                         <table className="claimSearchTable">
                             <thead>
                                 <tr>
@@ -69,9 +69,9 @@ const ClaimDetails = () =>
                                 </tr>
                             </tbody>
                         </table>
-                    </div>
-                    </div>
+                    <button className="button text-center" ><NavLink to={`/edit/${claim.policyNumber}`}>Edit</NavLink></button>
                 </div>
+            </div>
         </div>
 };
 
