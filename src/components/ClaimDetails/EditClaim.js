@@ -45,7 +45,7 @@ const EditClaim = (props) => {
         )
 
         props.setNewClaims([...updatedClaims, editClaim]);
-        navigate(`/claim/${claim.policyNumber}`)
+        //navigate(`/claim/${claim.policyNumber}`)
     } 
     console.log(props.newClaims);
 
@@ -92,7 +92,15 @@ const EditClaim = (props) => {
                     <input type="text"  id="reason" value={editClaim.reason} onChange={handleChange} />
 
                     <label htmlFor="updates">Updates *</label>
-                    <input type="text"  id="updates" value={editClaim.updates} onChange={handleChange} />
+                    <select id="updates" value={editClaim.updates} onChange={handleChange}>
+                    <option value="" disabled={false}> ---select---</option>
+                        <option value="New Claim">New Claim - Not yet assessed</option>
+                        <option value="Assessed">Assessed - Being worked on</option>
+                        <option value="Rejected">Rejected</option>
+                        <option value="Accepted - Awaiting Payment">Accepted - Awaiting payment</option>
+                        <option value="Accepted - Paid">Accepted - Paid</option>
+                        <option value="High Value">High Value Claim</option>
+                    </select>
 
                     <label htmlFor="status">Status *</label>
                     <select id="status" value={editClaim.status} onChange={handleChange}>

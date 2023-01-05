@@ -145,7 +145,15 @@ const AddClaim = () => {
                 <input type="text"  id="reason" placeholder="Reason" value={newClaim.reason} onChange={handleChange} />
 
                 <label htmlFor="updates">Updates *</label>
-                <input type="text"  id="updates" placeholder="Updates" value={newClaim.updates} onChange={handleChange} />
+                <select id="updates" value={newClaim.updates} onChange={handleChange}>
+                <option value="" disabled={false}> ---select---</option>
+                    <option value="New Claim">New Claim - Not yet assessed</option>
+                    <option value="Assessed">Assessed - Being worked on</option>
+                    <option value="Rejected">Rejected</option>
+                    <option value="Accepted - Awaiting Payment">Accepted - Awaiting payment</option>
+                    <option value="Accepted - Paid">Accepted - Paid</option>
+                    <option value="High Value">High Value Claim</option>
+                </select>
 
                 <label htmlFor="status">Status *</label>
                 <select id="status" value={newClaim.status} onChange={handleChange}>

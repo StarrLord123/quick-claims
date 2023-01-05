@@ -18,6 +18,42 @@ const ClaimDetails = () =>
     navigate(`/editclaim/${claimId}`);
     }
 
+    const propertyFields = (claim.insuranceType.toLowerCase() === "property") &&
+    <>
+        <tr>
+            <td>Property Address:</td>
+            <td>{claim.propertyAddress}</td>
+        </tr>
+    </>
+
+    const motorFields = (claim.insuranceType.toLowerCase() === "motor") &&
+    <>
+        <tr>
+            <td>Vehicle Make:</td>
+            <td>{claim.vehicleMake}</td>
+        </tr>
+        <tr>
+            <td>Vehicle Model:</td>
+            <td>{claim.vehicleModel}</td>
+        </tr>
+        <tr>
+            <td>Manufacture Year:</td>
+            <td>{claim.vehicleYear}</td>
+        </tr>
+    </>
+
+    const petFields = (claim.insuranceType.toLowerCase() === "pet") &&
+    <>
+        <tr>
+            <td>Pet Type:</td>
+            <td>{claim.animalType}</td>
+        </tr>
+        <tr>
+            <td>Pet Breed:</td>
+            <td>{claim.animalBreed}</td>
+        </tr>
+    </>
+
    return <div>
             <div className="container">
                 <div className="text-center">
@@ -55,6 +91,11 @@ const ClaimDetails = () =>
                                     <td>Amount:</td>
                                     <td>{claim.amount}</td>
                                 </tr>
+
+                                {propertyFields}
+                                {motorFields}
+                                {petFields}
+
                                 <tr>
                                     <td>Reason:</td>
                                     <td>{claim.reason}</td>
