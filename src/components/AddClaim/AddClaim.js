@@ -142,7 +142,7 @@ const AddClaim = () => {
                 <input type="text"  id="amount" placeholder="£" value={newClaim.amount} onChange={handleChange}/>
 
                 <label htmlFor="reason">Reason *</label>
-                <input type="text"  id="reason" placeholder="Reason" value={newClaim.reason} onChange={handleChange} />
+                <textarea type="text"  id="reason" placeholder="Reason" value={newClaim.reason} onChange={handleChange} rows="4"/>
 
                 <label htmlFor="updates">Updates *</label>
                 <select id="updates" value={newClaim.updates} onChange={handleChange}>

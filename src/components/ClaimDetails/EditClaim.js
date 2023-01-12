@@ -2,6 +2,7 @@ import { useReducer, useState, useEffect } from 'react'
 import { getAllClaims } from '../../data/DataFunctions';
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
+import AddNoteTable from './AddNoteTable';
 import './EditClaim.css'
 
 const EditClaim = (props) => {
@@ -41,7 +42,7 @@ const EditClaim = (props) => {
         event.preventDefault();
         
         const updatedClaims = props.newClaims.filter(
-            (claim, index) => claim.policyNumber !== editClaim.policyNumber
+            claim => claim.policyNumber !== editClaim.policyNumber
         )
 
         props.setNewClaims([...updatedClaims, editClaim]);
@@ -89,7 +90,7 @@ const EditClaim = (props) => {
                     <input type="text"  id="amount" value={editClaim.amount} onChange={handleChange}/>
 
                     <label htmlFor="reason">Reason *</label>
-                    <input type="text"  id="reason" value={editClaim.reason} onChange={handleChange} />
+                    <textarea type="text"  id="reason" value={editClaim.reason} onChange={handleChange} rows="4"/>
 
                     <label htmlFor="updates">Updates *</label>
                     <select id="updates" value={editClaim.updates} onChange={handleChange}>
@@ -110,7 +111,18 @@ const EditClaim = (props) => {
                     </select>
 
                     <button className="button text-center" >Save</button>
+
+                    
                 </form>
+
+            </div>
+                <div className="text-center">
+                <h2>Tasks</h2>
+                </div>
+            <div/>
+
+            <div className="container form">
+                    <AddNoteTable/>
             </div>
         </div>
     </div>

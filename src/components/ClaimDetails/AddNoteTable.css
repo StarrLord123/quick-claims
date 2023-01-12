@@ -1,0 +1,12 @@
+.addNoteTable {
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #999;
+    border-collapse: collapse;
+}
+
+.addNoteTable td, .addNoteTable th {
+    padding: 3px;
+    border: 1px solid #999;
+}
