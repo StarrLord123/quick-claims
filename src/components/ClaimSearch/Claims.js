@@ -18,6 +18,7 @@ const Claims = (props) => {
             const claim = allClaims.filter((claim) => {
                       return (
                         claim.policyNumber.toString().includes(props.searchTerm) ||
+                        claim.insuranceType.toLowerCase().includes(props.searchTerm) ||
                         claim.surname.toLowerCase().includes(props.searchTerm)
                       );
                     });

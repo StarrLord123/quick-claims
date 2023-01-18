@@ -1,6 +1,13 @@
-body {
-  background: #ccc;
-  font-family: 'Poppins', sans-serif;
+.quickClaimsLogo {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.menuImage {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .container {
@@ -12,13 +19,25 @@ body {
   padding: 20px;
 }
 
+.container.logo {
+    border: 0px;
+    padding: 0px;
+}
+
+.container.menu {
+    border: 0px;
+    padding: 0px;
+    background-image: url(/src/components/Images/MenuImage.png);
+}
+
 .container.heading {
   padding: 10px;
 }
 
 .container.footer {
   padding: 20px;
-  background: grey;
+  color: white;
+  background-image: url(/src/components/Images/MenuImage.png);
 }
 
 .container.form {
@@ -66,7 +85,7 @@ table {
 }
 
 .button {
-  background-color: #000000;
+  background-color: #3d3737;
   border: none;
   color: white !important;
   padding: 15px 32px;
@@ -78,19 +97,23 @@ table {
   cursor: pointer;
 }
 
+.navLink {
+    color: whi
+}
+
 .button:hover {
   background-color: grey; 
   color: #000000 !important;
 }
 
 @media only screen and (min-width: 769px) and (max-width: 1024px){
-.container, .container.form {
+.container, .container.form, .quickClaimsLogo {
 width:  550px;
 }
 }
 
 @media only screen and (max-width: 768px) {
-.container, .container.form {
+.container, .container.form, .quickClaimsLogo {
 width: 95%;
 }
 }
