@@ -35,6 +35,13 @@ const AddClaim = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        if (newClaim.updates === "Accepted - Paid" || newClaim.updates === "Rejected") {
+            newClaim.status = "Closed"
+        }
+        else{
+            newClaim.status = "Open"
+        }
+        newClaim.insuranceType = chosenOption;
         claims.push(newClaim);
         setClaims(claims);
         console.log("Claims", claims);
@@ -84,7 +91,7 @@ const AddClaim = () => {
         <div className="container form">
             <form className="addClaimsForm" onSubmit={handleSubmit}  >
                 <label htmlFor="policyNumber">Policy Number *</label>
-                <input type="text" id="policyNumber" placeholder="Policy Number" value={newClaim.policyNumber} onChange={handleChange} />
+                <input type="number" id="policyNumber" placeholder="Policy Number" value={newClaim.policyNumber} onChange={handleChange} />
 
                 <label htmlFor="date">Date *</label>
                 <input type="date" id="date" value={newClaim.date} onChange={handleChange}/>
@@ -92,9 +99,9 @@ const AddClaim = () => {
                 <label htmlFor="title">Title *</label>
                 <select id="title" value={newClaim.title} onChange={handleChange}>
                 <option value="" disabled={false}> ---select---</option>
-                    <option value="mr">Mr</option>
-                    <option value="ms">Ms</option>
-                    <option value="mx">Mx</option>
+                    <option value="Mr">Mr</option>
+                    <option value="Ms">Ms</option>
+                    <option value="Mx">Mx</option>
                 </select>
 
                 <label htmlFor="forename">Forename *</label>
@@ -107,17 +114,17 @@ const AddClaim = () => {
                 <select id="insuranceType" value={chosenOption} 
                 onChange={(e) => {
                     setChosenOption(e.target.value);
-                    if(e.target.value === "property") {
+                    if(e.target.value === "Property") {
                         setViewPropertyFields(true);
                         setViewMotorFields(false);
                         setViewPetFields(false);
                     }   
-                    if(e.target.value === "motor") {
+                    if(e.target.value === "Motor") {
                         setViewMotorFields(true);
                         setViewPropertyFields(false);
                         setViewPetFields(false);
                     }
-                    if(e.target.value === "pet") {
+                    if(e.target.value === "Pet") {
                         setViewPetFields(true);
                         setViewPropertyFields(false);
                         setViewMotorFields(false);
@@ -129,9 +136,9 @@ const AddClaim = () => {
                     }
                 }}>
                 <option value="" disabled={false}> ---select---</option>
-                    <option value="property">Property</option>
-                    <option value="motor">Motor</option>
-                    <option value="pet">Pet</option>
+                    <option value="Property">Property</option>
+                    <option value="Motor">Motor</option>
+                    <option value="Pet">Pet</option>
                 </select>
 
                 {propertyFields}
@@ -153,13 +160,6 @@ const AddClaim = () => {
                     <option value="Accepted - Awaiting Payment">Accepted - Awaiting payment</option>
                     <option value="Accepted - Paid">Accepted - Paid</option>
                     <option value="High Value">High Value Claim</option>
-                </select>
-
-                <label htmlFor="status">Status *</label>
-                <select id="status" value={newClaim.status} onChange={handleChange}>
-                <option value="" disabled={false}> ---select---</option>
-                    <option value="Open">Open</option>
-                    <option value="Closed">Closed</option>
                 </select>
 
                 <button className="button text-center" type="submit" >Save</button>

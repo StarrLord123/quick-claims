@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import { getAllClaims } from "../../data/DataFunctions";
 import { useParams, useNavigate, NavLink } from "react-router-dom";
+import AddNoteTable from './AddNoteTable';
 
 const ClaimDetails = () =>  
 {
@@ -112,6 +113,17 @@ const ClaimDetails = () =>
                         </table>
                     <button className="button text-center" ><NavLink to={`/edit/${claim.policyNumber}`}>Edit</NavLink></button>
                 </div>
+                
+                <div className="text-center">
+                    <h2>Tasks</h2>
+                    </div>
+
+                <div/>
+
+                <div className="container form">
+                    <AddNoteTable/>
+                </div>
+
             </div>
         </div>
 };
