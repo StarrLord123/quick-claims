@@ -1,26 +1,37 @@
 import { Outlet, NavLink } from "react-router-dom";
 import "../App.css";
 import Footer from "./Footer/Footer";
-import QuickClaims from "./Images/QuickClaims.png"
-import MenuImage from "./Images/MenuImage.png"
+import SpeedyClaims from "./Images/SpeedyClaims.png"
+import { useContext } from 'react';
+import { UserContext } from "./contexts/UserContext";
 
 const Menu = () => 
 {
+    const currentUser = useContext(UserContext);
+
+    const logout = () => {
+        currentUser.setUser({name:"", role:""});
+    }
+
     return (
     <div>
+        {currentUser.user.name !== "" &&<div className="container menu heading d-flex flex-row justify-content-between align-items-left text-white">
+            {currentUser.user.name !== "" && <p>Current user : {currentUser.user.name}</p>}
+        </div>}
         <div className="container logo">
-            <img className="quickClaimsLogo" src={QuickClaims} alt="Quick Claims Logo"></img>
+            <img className="speedyClaimsLogo" src={SpeedyClaims} alt="Quick Claims Logo"></img>
         </div>
-        <nav>
-            <div className="container menu bg-black heading d-flex flex-row justify-content-between align-items-left">
 
-                <button className="button"><NavLink to="/addclaim">ADD CLAIM</NavLink></button>
-                <button className="button"><NavLink to="/openclaims">OPEN CLAIMS</NavLink></button>
-                <button className="button"><NavLink to="/claimsearch">SEARCH CLAIMS</NavLink></button>
+        <nav>  
+            <div className="container menu heading d-flex flex-row justify-content-between align-items-left">
 
+                <button className="button"><NavLink className="nav-link" to="/addclaim" >ADD CLAIM</NavLink></button>
+                <button className="button"><NavLink className="nav-link" to="/openclaims">OPEN CLAIMS</NavLink></button>
+                <button className="button"><NavLink className="nav-link" to="/claimsearch">SEARCH CLAIMS</NavLink></button>
+                {currentUser.user.name === "" && <button className="button"><NavLink className="nav-link" to="/login">LOG IN</NavLink></button>}
+                {currentUser.user.name !== "" && <button className="button" onClick={logout}>LOG OUT</button>}
             </div>
         </nav>
-
         <main>
             <Outlet />
         </main>

@@ -60,11 +60,11 @@ const ClaimDetails = () =>
                 <div className="text-center">
                     <h1>Claim Details</h1>
                 </div>
-                <div className="container form">
+                <div className="container form card rounded shadow p-3">
                     <div className="text-center">
                         <h2>Policy Number {claim.policyNumber}</h2>
                     </div>
-                        <table className="claimSearchTable">
+                        <table className="claimSearchTable table table-striped table-responsive">
                             <thead>
                                 <tr>
                                     <th>Heading</th>
@@ -111,7 +111,7 @@ const ClaimDetails = () =>
                                 </tr>
                             </tbody>
                         </table>
-                    <button className="button text-center" ><NavLink to={`/edit/${claim.policyNumber}`}>Edit</NavLink></button>
+                    {claim.status === "Open" && <button className="button"><NavLink className="nav-link" to={`/edit/${claim.policyNumber}`}>Edit</NavLink></button>}
                 </div>
                 
                 <div className="text-center">
@@ -120,7 +120,7 @@ const ClaimDetails = () =>
 
                 <div/>
 
-                <div className="container form">
+                <div className="container form card rounded shadow p-3">
                     <AddNoteTable/>
                 </div>
 

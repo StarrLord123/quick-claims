@@ -22,7 +22,7 @@ const Claims = () => {
                 <div className="text-center">
                     <h1>Claims By Status Update</h1>
                 </div>
-                <div className="container form">
+                <div className="container form card rounded shadow p-3">
 
                     <div className="openClaimsStatusSelector">
                         Select By Status Update: <select onChange={changeUpdates}>
@@ -30,25 +30,25 @@ const Claims = () => {
                             .map (updates => <option key={updates} value={updates}>{updates}</option>)}
                         </select>
                     </div>
-                    <table className="openClaimsTable">
-                        <thead>
-                        <tr>
-                            <th>Policy #</th>
-                            <th>Type</th>
-                            <th>Surname</th>
-                            <th>Updates</th>
-                            <th>Status</th>
-                            <th>Details</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {claims
-                            .map( (claim, index)  => {
-                            return claim.updates === selectedUpdates && <OpenClaimsTableRow key={index} policyNumber={claim.policyNumber} insuranceType={claim.insuranceType} surname={claim.surname} 
-                            updates={claim.updates} status={claim.status} details/> })}
-                        </tbody>
-                    </table>
                 </div>
+                <table className="openClaimsTable table table-striped table-responsive">
+                    <thead>
+                    <tr>
+                        <th>Policy #</th>
+                        <th>Type</th>
+                        <th>Surname</th>
+                        <th>Updates</th>
+                        <th>Status</th>
+                        <th>Details</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {claims
+                        .map( (claim, index)  => {
+                        return claim.updates === selectedUpdates && <OpenClaimsTableRow key={index} policyNumber={claim.policyNumber} insuranceType={claim.insuranceType} surname={claim.surname} 
+                        updates={claim.updates} status={claim.status} details/> })}
+                    </tbody>
+                </table>
             </div>
         </div>
     );

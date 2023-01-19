@@ -6,10 +6,7 @@ function Infotablerows({ rows, tableRowRemove, onValUpdate }) {
     return rows.map((rowsData, index) => {
         const { completed, date, note } = rowsData;
         return (
-            <tr
-                className="addNoteTable"
-                key={index}
-            >
+            <tr className="addNoteTable table table-striped table-responsive" key={index}>
                 <td>
                     <select id="completed" value={completed} onChange={(event) => onValUpdate(index, event)}>
                         <option value="" disabled={false}> ---select---</option>
@@ -71,19 +68,13 @@ function AddNoteTable() {
     return (
         <>
 
-            <table className="addNoteTable">
+            <table className="addNoteTable table table-striped table-responsive">
               <thead>
                 <tr>
                   <th>Completed</th>
                   <th>Date</th>
                   <th>Note</th>
                   <th>
-                    <button
-                      className="button text-center"
-                      onClick={addRowTable}
-                    >
-                      Add
-                    </button>
                   </th>
                 </tr>
               </thead>
@@ -95,6 +86,7 @@ function AddNoteTable() {
                 />
               </tbody>
             </table>
+            <button className="button text-center" onClick={addRowTable}>Add</button>
         </>
     );
 }

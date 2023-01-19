@@ -33,7 +33,7 @@ const Claims = (props) => {
 
     return (
         <div>
-            <table className="claimSearchTable">
+            <table className="claimSearchTable table table-striped table-responsive">
                 <thead>
                     <tr>
                         <th>Policy Number</th>

@@ -127,7 +127,7 @@ const EditClaim = (props) => {
                 <h1>Edit claim</h1>
             </div>
 
-            <div className="container form">
+            <div className="container form card rounded shadow p-3">
                 <form className="editClaimsForm" onSubmit={handleSubmit}  >
                     <label htmlFor="policyNumber">Policy Number *</label>
                     <input type="number" id="policyNumber" value={editClaim.policyNumber} onChange={handleChange} />

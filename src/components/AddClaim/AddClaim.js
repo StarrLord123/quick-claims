@@ -88,7 +88,7 @@ const AddClaim = () => {
             <h1>Add claim</h1>
         </div>
 
-        <div className="container form">
+        <div className="container form card rounded shadow p-3">
             <form className="addClaimsForm" onSubmit={handleSubmit}  >
                 <label htmlFor="policyNumber">Policy Number *</label>
                 <input type="number" id="policyNumber" placeholder="Policy Number" value={newClaim.policyNumber} onChange={handleChange} />

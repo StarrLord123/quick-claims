@@ -1,5 +1,5 @@
-.quickClaimsLogo {
-    max-width: 100%;
+.speedyClaimsLogo {
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -8,6 +8,7 @@
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
+    padding: 20px;
 }
 
 .container {
@@ -42,6 +43,7 @@
 
 .container.form {
   width: 800px;
+  background: rgb(206, 210, 216);
 }
 
 .container.table {
@@ -85,7 +87,8 @@ table {
 }
 
 .button {
-  background-color: #3d3737;
+  border-radius: 25px;
+  background-color: #38373d;
   border: none;
   color: white !important;
   padding: 15px 32px;
@@ -95,10 +98,12 @@ table {
   font-size: 16px;
   margin: 4px 2px;
   cursor: pointer;
+  text-decoration: none;
 }
 
-.navLink {
-    color: whi
+.nav-link {
+    color: white !important;
+    text-decoration: none;
 }
 
 .button:hover {
@@ -107,13 +112,16 @@ table {
 }
 
 @media only screen and (min-width: 769px) and (max-width: 1024px){
-.container, .container.form, .quickClaimsLogo {
+.container {
 width:  550px;
+}
+.container.form {
+    width: 95%;
 }
 }
 
 @media only screen and (max-width: 768px) {
-.container, .container.form, .quickClaimsLogo {
+.container, .container.form {
 width: 95%;
 }
 }
