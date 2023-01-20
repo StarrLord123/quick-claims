@@ -33,9 +33,7 @@ const ClaimSearch = (props) => {
         props.setSearchTerm("");
     }
 
-    return (
-    <div>
-        <div className="container">
+    return<div className="container">
             <div className="text-center">
                 <h1>Search claims</h1>
             </div>
@@ -55,8 +53,7 @@ const ClaimSearch = (props) => {
                 </form>
             </div>  
             <Claims searchTerm={localSearchTerm} setSearchTerm={localSearchTerm}/>
-        </div>
-    </div>);
+        </div>;
 }
 
 export default ClaimSearch;

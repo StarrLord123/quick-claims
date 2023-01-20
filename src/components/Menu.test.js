@@ -7,7 +7,7 @@ test("menu contains a link to the find page", ()=> {
     render(<BrowserRouter><Menu /></BrowserRouter>);
 
     //step2 - get the object we want to inspect
-    const findLink = screen.getByText("claimsearch", {exact: false});
+    const findLink = screen.getByText("SEARCH CLAIMS", {exact: false});
 
     //step3 - user interaction (click / type)
 
