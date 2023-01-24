@@ -1,33 +1,34 @@
 import Claims from "./Claims";
+import ClaimSearch from "./ClaimSearch";
 import {useParams} from 'react-router-dom';
 import { useEffect } from "react";
 
 const FindClaimsPage = (props) => {
 
-const params = useParams();
+    const params = useParams();
 
-useEffect( ()=> {
-    if (params.policyNumber != null && params.policyNumber !== props.searchTerm) {
-        props.setSearchTerm(props.searchTerm);
-    }
-} , [params.policyNumber]);
+    useEffect( ()=> {
+        if (params.policyNumber != null && params.policyNumber !== props.searchTerm) {
+            props.setSearchTerm(props.searchTerm);
+        }
+    } , [params.policyNumber]);
 
-useEffect ( () => {
-    if (params.policyNumber != null) {
-        props.setSearchTerm(params.policyNumber)
-    }
-} , []);
+    useEffect ( () => {
+        if (params.policyNumber != null) {
+            props.setSearchTerm(params.policyNumber)
+        }
+    } , []);
 
-return (
+    return (
 
-        <div className="container">
-            <div className="text-center">
-                <h1>Search results for: {props.searchTerm}</h1>
+            <div className="container">
+                <div className="text-center">
+                    <h1>Search results for: {props.searchTerm}</h1>
+                </div>
+
+                <Claims searchTerm={props.searchTerm}  />
             </div>
-
-            <Claims searchTerm={props.searchTerm}  />
-        </div>
-    );
+        );
 }
 
 export default FindClaimsPage;

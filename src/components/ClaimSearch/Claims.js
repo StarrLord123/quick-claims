@@ -53,7 +53,6 @@ const Claims = (props) => {
 
     useEffect( ()=> {
             loadData();
-            console.log(loadData())
         }, [] );
 
     return (<>

@@ -1,10 +1,11 @@
 import { useReducer, useState, useEffect } from 'react'
-import { getAllClaims } from '../../data/DataFunctions';
+import { addNewClaim } from '../../data/DataFunctions'
+import { getAllClaimsAxiosVersion } from '../../data/DataFunctions';
 import './AddClaim.css'
 
 const AddClaim = () => {
 
-    const [claims, setClaims] = useState([]);
+    const [message, setMessage] = useState("");
     
     const initialNewClaimState = {
         policyNumber : "", 
@@ -29,10 +30,6 @@ const AddClaim = () => {
        dispatch({field : event.target.id, value : event.target.value});
     }
 
-    useEffect(() => {
-        setClaims(getAllClaims);
-    }, []);
-
     const handleSubmit = (event) => {
         event.preventDefault();
         if (newClaim.updates === "Accepted - Paid" || newClaim.updates === "Rejected") {
@@ -42,10 +39,20 @@ const AddClaim = () => {
             newClaim.status = "Open"
         }
         newClaim.insuranceType = chosenOption;
-        claims.push(newClaim);
-        setClaims(claims);
-        console.log("Claims", claims);
-        console.log("New claim", newClaim);
+        setMessage("Saving...");
+        addNewClaim(newClaim)
+            .then( response => {
+                if (response.status === 200) {
+                    setMessage("New transaction added with id " + response.data.id);
+                }
+                else {
+                    setMessage("Something went wrong - status code was " + response.status);
+                }
+                
+            } )
+            .catch( error => {
+                setMessage("Something went wrong - " + error);
+            })
     } 
     
     const [viewPropertyFields, setViewPropertyFields] = useState(false);
@@ -146,7 +153,7 @@ const AddClaim = () => {
                 {petFields}
 
                 <label htmlFor="amount">Amount *</label>
-                <input type="text"  id="amount" placeholder="£" value={newClaim.amount} onChange={handleChange}/>
+                <input type="number"  id="amount" placeholder="£" value={newClaim.amount} onChange={handleChange}/>
 
                 <label htmlFor="reason">Reason *</label>
                 <textarea type="text"  id="reason" placeholder="Reason" value={newClaim.reason} onChange={handleChange} rows="4"/>
@@ -163,6 +170,7 @@ const AddClaim = () => {
                 </select>
 
                 <button className="button text-center" type="submit" >Save</button>
+                <div>{message}</div>
             </form>
         </div>
     </div>
