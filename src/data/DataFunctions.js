@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export const getAllClaims = () => {
     return [
         {policyNumber: 101, insuranceType: "Property", title: "Mr", forename: "John", surname: "Smith", amount: 100, propertyAddress: "1 fake street", reason: "House burnt down", updates: "New Claim", status: "Open"},
@@ -12,3 +14,65 @@ export const getAllClaims = () => {
         {policyNumber: 110, insuranceType: "Property", title: "Ms", forename: "Laura", surname: "Stephens", amount: 100, propertyAddress: "4 fake street", reason: "House burnt down", updates: "Accepted - Paid", status: "Closed"}
     ]
 }
+
+const headers = new Headers({"Accept" : "application/json"})
+
+// const getAuthHeader = (username, password) => {
+//     return {"Authorization" : "Basic " + btoa(`${username}:${password}`)}
+// }
+
+export const getAllClaimsFetchVersion = () => { 
+    return fetch ("http://localhost:8080/api/claim", 
+         {
+            method: "GET",
+            headers : headers          
+        }
+    )
+}
+
+export const getAllClaimsAxiosVersion  = () => {
+    return axios({url : "http://localhost:8080/api/claim",
+            method: "GET", 
+            headers: {"Accept" : "application/json"}
+            })
+}
+
+// export const getAllClaimsForUpdates = (updates) => {
+//     console.log("getallpaymentsforupdates")
+//     return axios({url : "http://localhost:8080/api/claim?updates="+updates,
+//             method: "GET", 
+//             headers: {"Accept" : "application/json", ...getAuthHeader(username, password)}
+//             })
+// }
+
+export const getAllClaimsForPolicyNumber  = (policyNumber) => {
+    return axios({url : "http://localhost:8080/api/claim?policyNumber="+policyNumber,
+            method: "GET", 
+            headers: {"Accept" : "application/json"}
+            })
+}
+
+export const getUpdates = ()  => {
+    console.log("getupdates")
+    return axios({url : "http://localhost:8080/api/updates",
+            method: "GET", 
+            headers: {"Accept" : "application/json"}
+            })
+}
+
+export const addNewClaim = (claim) => {
+    return axios({url : "http://localhost:8080/api/claim",
+                    method: "POST",
+                    headers: {"Accept" : "application/json", "Content-Type": "application/json"},
+                    data : claim
+                })
+}
+
+// export const login = (username, password) => {
+//     return axios({url : "http://localhost:8080/api/login",
+//                     method: "POST",
+//                     headers: {...getAuthHeader(username,password),
+//                          "Accept" : "application/json", "Content-Type": "application/json"},
+//                          data: {username: username}
+//                     });
+// }
