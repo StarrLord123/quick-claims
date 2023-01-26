@@ -9,7 +9,7 @@ const ClaimSearchTableRow = (props) => {
             <td>{props.surname}</td>
             <td>{props.updates}</td>
             <td>{props.status}</td>
-            <td><NavLink to={`/claim/${props.policyNumber}`}>More Details</NavLink></td>
+            <td><NavLink to={`/claim/${props.id}`}>More Details</NavLink></td>
         </tr>
     );
 };

@@ -1,61 +1,61 @@
-import React, {useState} from "react";
-import { getAllClaims } from "../../data/DataFunctions";
-import { useParams, useNavigate, NavLink } from "react-router-dom";
+import React, { useEffect, useState} from "react";
+import { getAllClaimsAxiosVersion, getClaimById } from "../../data/DataFunctions";
+import { useParams, NavLink } from "react-router-dom";
 import AddNoteTable from './AddNoteTable';
 
 const ClaimDetails = () =>  
 {
-   const params = useParams();
-   const claimId = params.policyNumber;
+    const params = useParams();
+    const claimId = params.id;
 
-   const claims = getAllClaims();
+    const [claim, setClaim] = useState([]);
+    const [claims, setClaims] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
-   const claim = claims.find(claim => claim.policyNumber === +claimId)
+    if (claim.length === 0) {
+        getClaimById(+claimId)
+        .then ( response => {
+            if (response.status === 200) {
+                setClaim(response.data);
+            }
+            else {
+                console.log("something went wrong", response.status)
+            }
+        })
+        .then (
 
-   const navigate = useNavigate();
-
-   const doEdit = (event) => {
-    event.preventDefault();
-    navigate(`/editclaim/${claimId}`);
+        )
+        .catch( error => {
+            console.log("something went wrong", error);
+        })
+        console.log(claim)
+    
     }
 
-    const propertyFields = (claim.insuranceType.toLowerCase() === "property") &&
-    <>
-        <tr>
-            <td>Property Address:</td>
-            <td>{claim.propertyAddress}</td>
-        </tr>
-    </>
+    const loadData = () => {
+        getAllClaimsAxiosVersion()
+            .then ( response => {
+                if (response.status === 200) {
+                    setIsLoading(false);
+                    setClaims(response.data);
+                }
+                else {
+                    console.log("something went wrong", response.status)
+                }
+            })
+            .catch( error => {
+                console.log("something went wrong", error);
+            })
+           
+    }
 
-    const motorFields = (claim.insuranceType.toLowerCase() === "motor") &&
-    <>
-        <tr>
-            <td>Vehicle Make:</td>
-            <td>{claim.vehicleMake}</td>
-        </tr>
-        <tr>
-            <td>Vehicle Model:</td>
-            <td>{claim.vehicleModel}</td>
-        </tr>
-        <tr>
-            <td>Manufacture Year:</td>
-            <td>{claim.vehicleYear}</td>
-        </tr>
-    </>
+    useEffect( ()=> {
+            loadData();
+        }, [] );
 
-    const petFields = (claim.insuranceType.toLowerCase() === "pet") &&
-    <>
-        <tr>
-            <td>Pet Type:</td>
-            <td>{claim.animalType}</td>
-        </tr>
-        <tr>
-            <td>Pet Breed:</td>
-            <td>{claim.animalBreed}</td>
-        </tr>
-    </>
-
-   return <div>
+   return (<>
+            {isLoading && <p style={{textAlign:"center"}} >Please wait... loading</p>}
+            {!isLoading &&
             <div className="container">
                 <div className="text-center">
                     <h1>Claim Details</h1>
@@ -93,9 +93,41 @@ const ClaimDetails = () =>
                                     <td>{claim.amount}</td>
                                 </tr>
 
-                                {propertyFields}
-                                {motorFields}
-                                {petFields}
+                                {(claim.insuranceType === "Property") &&
+                                    <>
+                                        <tr>
+                                            <td>Property Address:</td>
+                                            <td>{claim.propertyAddress}</td>
+                                        </tr>
+                                    </>}
+
+                                {(claim.insuranceType === "Motor") &&
+                                    <>
+                                        <tr>
+                                            <td>Vehicle Make:</td>
+                                            <td>{claim.vehicleMake}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Vehicle Model:</td>
+                                            <td>{claim.vehicleModel}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Manufacture Year:</td>
+                                            <td>{claim.vehicleYear}</td>
+                                        </tr>
+                                    </>}
+
+                                {(claim.insuranceType === "Pet") &&
+                                    <>
+                                        <tr>
+                                            <td>Pet Type:</td>
+                                            <td>{claim.animalType}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Pet Breed:</td>
+                                            <td>{claim.animalBreed}</td>
+                                        </tr>
+                                    </>}
 
                                 <tr>
                                     <td>Reason:</td>
@@ -125,7 +157,9 @@ const ClaimDetails = () =>
                 </div>
 
             </div>
-        </div>
+        }
+        </>
+        );
 };
 
 export default ClaimDetails;

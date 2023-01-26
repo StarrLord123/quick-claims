@@ -2,6 +2,7 @@ import { useReducer, useState, useEffect } from 'react'
 import { addNewClaim } from '../../data/DataFunctions'
 import { getAllClaimsAxiosVersion } from '../../data/DataFunctions';
 import './AddClaim.css'
+import UpdatesSelector from '../OpenClaims/UpdatesSelector';
 
 const AddClaim = () => {
 
@@ -28,6 +29,10 @@ const AddClaim = () => {
     
     const handleChange = (event) => {
        dispatch({field : event.target.id, value : event.target.value});
+    }
+
+    const changeUpdates = (updates) => {
+        dispatch({field : "updates", value : updates});
     }
 
     const handleSubmit = (event) => {
@@ -98,7 +103,7 @@ const AddClaim = () => {
         <div className="container form card rounded shadow p-3">
             <form className="addClaimsForm" onSubmit={handleSubmit}  >
                 <label htmlFor="policyNumber">Policy Number *</label>
-                <input type="number" id="policyNumber" placeholder="Policy Number" value={newClaim.policyNumber} onChange={handleChange} />
+                <input type="text" id="policyNumber" placeholder="Policy Number" value={newClaim.policyNumber} onChange={handleChange} />
 
                 <label htmlFor="date">Date *</label>
                 <input type="date" id="date" value={newClaim.date} onChange={handleChange}/>
@@ -158,16 +163,7 @@ const AddClaim = () => {
                 <label htmlFor="reason">Reason *</label>
                 <textarea type="text"  id="reason" placeholder="Reason" value={newClaim.reason} onChange={handleChange} rows="4"/>
 
-                <label htmlFor="updates">Updates *</label>
-                <select id="updates" value={newClaim.updates} onChange={handleChange}>
-                <option value="" disabled={false}> ---select---</option>
-                    <option value="New Claim">New Claim - Not yet assessed</option>
-                    <option value="Assessed">Assessed - Being worked on</option>
-                    <option value="Rejected">Rejected</option>
-                    <option value="Accepted - Awaiting Payment">Accepted - Awaiting payment</option>
-                    <option value="Accepted - Paid">Accepted - Paid</option>
-                    <option value="High Value">High Value Claim</option>
-                </select>
+                <UpdatesSelector value={newClaim.updates} changeUpdates={changeUpdates} />
 
                 <button className="button text-center" type="submit" >Save</button>
                 <div>{message}</div>

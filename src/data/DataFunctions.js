@@ -37,16 +37,23 @@ export const getAllClaimsAxiosVersion  = () => {
             })
 }
 
-// export const getAllClaimsForUpdates = (updates) => {
-//     console.log("getallpaymentsforupdates")
-//     return axios({url : "http://localhost:8080/api/claim?updates="+updates,
-//             method: "GET", 
-//             headers: {"Accept" : "application/json", ...getAuthHeader(username, password)}
-//             })
-// }
+export const getAllClaimsForUpdates = (updates) => {
+    console.log("getallclaimsforupdates")
+    return axios({url : "http://localhost:8080/api/claim?updates="+updates,
+            method: "GET", 
+            headers: {"Accept" : "application/json"}
+            })
+}
 
 export const getAllClaimsForPolicyNumber  = (policyNumber) => {
     return axios({url : "http://localhost:8080/api/claim?policyNumber="+policyNumber,
+            method: "GET", 
+            headers: {"Accept" : "application/json"}
+            })
+}
+
+export const getClaimById  = (id) => {
+    return axios({url : "http://localhost:8080/api/claim/"+id,
             method: "GET", 
             headers: {"Accept" : "application/json"}
             })
@@ -59,6 +66,7 @@ export const getUpdates = ()  => {
             headers: {"Accept" : "application/json"}
             })
 }
+
 
 export const addNewClaim = (claim) => {
     return axios({url : "http://localhost:8080/api/claim",

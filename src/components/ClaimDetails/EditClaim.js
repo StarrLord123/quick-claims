@@ -1,5 +1,5 @@
 import { useReducer, useState, useEffect } from 'react'
-import { getAllClaims } from '../../data/DataFunctions';
+import { getAllClaimsAxiosVersion, getAllClaimsForPolicyNumber } from '../../data/DataFunctions';
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import './EditClaim.css'
@@ -8,10 +8,31 @@ const EditClaim = (props) => {
 
     const params = useParams();
     const claimId = params.policyNumber;
- 
-    const claims = getAllClaims();
- 
-    const claim = claims.find(claim => claim.policyNumber === +claimId)
+
+    const [claim, setClaim] = useState([]);
+    const [allClaims, setAllClaims] = useState([]);
+
+    const loadData = () => {
+        getAllClaimsAxiosVersion()
+            .then ( response => {
+                if (response.status === 200) {
+                    setAllClaims(response.data);
+                }
+                else {
+                    console.log("something went wrong", response.status)
+                }
+            })
+            .catch( error => {
+                console.log("something went wrong", error);
+            })
+    }
+
+    useEffect( ()=> {
+            loadData();
+            const thisClaim = allClaims.find(thisClaim => thisClaim.policyNumber === +claimId)
+            setClaim(thisClaim);
+        }, [] );
+
     const navigate = useNavigate();
     
     const initialEditClaimState = {

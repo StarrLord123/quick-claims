@@ -1,56 +1,84 @@
 import './OpenClaims.css';
-import {useState} from 'react';
-import {getAllClaims} from './../../data/DataFunctions';
+import {useEffect, useState} from 'react';
+import {getAllClaimsForUpdates} from '../../data/DataFunctions';
 import OpenClaimsTableRow from "./OpenClaimsTableRow";
+import UpdatesSelector from './UpdatesSelector';
+import { useSearchParams } from 'react-router-dom';
+
 
 const Claims = () => {
 
-    const claims = getAllClaims();
-    const allClaimsUpdates = claims.map(claim => claim.updates);
-    const uniqueUpdates = allClaimsUpdates.filter((updates, index) => allClaimsUpdates.indexOf(updates) === index);
+    const [claims, setClaims] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
-    const [selectedUpdates, setSelectedUpdates] = useState(uniqueUpdates[0])
+    const [searchParams, setSearchParams] = useSearchParams();
 
-    const changeUpdates = (e) => {
-        const option = e.target.options.selectedIndex;
-        setSelectedUpdates(uniqueUpdates[option]);
+    const loadData = (updates) => {
+        getAllClaimsForUpdates(updates)
+            .then ( response => {
+                if (response.status === 200) {
+                    setIsLoading(false);
+                    setClaims(response.data);
+                }
+                else {
+                    console.log("something went wrong", response.status)
+                }
+            })
+            .catch( error => {
+                console.log("something went wrong", error);
+            })
+    }
+    
+    //debugger;
+       
+    const [selectedUpdates, setSelectedUpdates] = useState("");
+
+    useEffect( ()=> {
+        const updates = searchParams.get("updates");
+        if (updates !== selectedUpdates) {
+            setSelectedUpdates(updates);
+            loadData(updates);
+        }
+     }, [searchParams] );
+
+    const changeUpdates = (updates) => {
+        setSearchParams({"updates" : updates});
     }
 
     return (
-        <div>
-            <div className="container">
-                <div className="text-center">
-                    <h1>Claims By Status Update</h1>
-                </div>
-                <div className="container form card rounded shadow p-3">
-
-                    <div className="openClaimsStatusSelector">
-                        Select By Status Update: <select onChange={changeUpdates}>
-                        {uniqueUpdates
-                            .map (updates => <option key={updates} value={updates}>{updates}</option>)}
-                        </select>
-                    </div>
-                </div>
-                <table className="openClaimsTable table table-striped table-responsive">
-                    <thead>
-                    <tr>
-                        <th>Policy #</th>
-                        <th>Type</th>
-                        <th>Surname</th>
-                        <th>Updates</th>
-                        <th>Status</th>
-                        <th>Details</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {claims
-                        .map( (claim, index)  => {
-                        return claim.updates === selectedUpdates && <OpenClaimsTableRow key={index} policyNumber={claim.policyNumber} insuranceType={claim.insuranceType} surname={claim.surname} 
-                        updates={claim.updates} status={claim.status} details/> })}
-                    </tbody>
-                </table>
+        <>
+        <div className="container">
+            <div className="text-center">
+                <h1>Claims By Status Update</h1>
             </div>
-        </div>
+            <div className="container form card rounded shadow p-3">
+                <form className="updatesSelector">
+                    {!isLoading  && <UpdatesSelector changeUpdates={changeUpdates}  />}
+                </form>
+            </div>
+                {isLoading && <p style={{textAlign:"center"}} >Please wait... loading</p>}
+                {!isLoading &&
+                    <table className="openClaimsTable table table-striped table-responsive">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Policy #</th>
+                            <th>Type</th>
+                            <th>Surname</th>
+                            <th>Updates</th>
+                            <th>Status</th>
+                            <th>Details</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {claims
+                            .map( (claim, index)  => {
+                            return claim.updates === selectedUpdates && <OpenClaimsTableRow key={index} id={claim.id} policyNumber={claim.policyNumber} insuranceType={claim.insuranceType} surname={claim.surname} 
+                            updates={claim.updates} status={claim.status} details/> })}
+                        </tbody>
+                    </table>}
+                </div>
+        </>
     );
 }
 

@@ -1,9 +1,15 @@
 import { NavLink } from "react-router-dom";
 
-const OpenClaimsTableRow = (claim) => {
+const OpenClaimsTableRow = (props) => {
     return (
-        <tr key={claim.policyNumber}>
-            <td>{claim.policyNumber}</td><td>{claim.insuranceType}</td><td>{claim.surname}</td><td>{claim.updates}</td><td>{claim.status}</td><td><NavLink to={`/claim/${claim.policyNumber}`}>More Details</NavLink></td>
+        <tr>
+            <td>{props.id}</td>
+            <td>{props.policyNumber}</td>
+            <td>{props.insuranceType}</td>
+            <td>{props.surname}</td>
+            <td>{props.updates}</td>
+            <td>{props.status}</td>
+            <td><NavLink to={`/claim/${props.id}`}>More Details</NavLink></td>
         </tr>
     );
 };
