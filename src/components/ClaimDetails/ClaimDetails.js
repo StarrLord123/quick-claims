@@ -143,7 +143,7 @@ const ClaimDetails = () =>
                                 </tr>
                             </tbody>
                         </table>
-                    {claim.status === "Open" && <button className="button"><NavLink className="nav-link" to={`/edit/${claim.policyNumber}`}>Edit</NavLink></button>}
+                    {claim.status === "Open" && <button className="button"><NavLink className="nav-link" to={`/edit/${claim.id}`}>Edit</NavLink></button>}
                 </div>
                 
                 <div className="text-center">

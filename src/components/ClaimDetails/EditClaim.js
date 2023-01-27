@@ -1,5 +1,5 @@
 import { useReducer, useState, useEffect } from 'react'
-import { getAllClaimsAxiosVersion, getAllClaimsForPolicyNumber } from '../../data/DataFunctions';
+import { getAllClaimsAxiosVersion, getAllClaimsForPolicyNumber, getClaimById } from '../../data/DataFunctions';
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import './EditClaim.css'
@@ -7,16 +7,38 @@ import './EditClaim.css'
 const EditClaim = (props) => {
 
     const params = useParams();
-    const claimId = params.policyNumber;
+    const claimId = params.id;
 
     const [claim, setClaim] = useState([]);
-    const [allClaims, setAllClaims] = useState([]);
+    const [claims, setClaims] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    if (claim.length === 0) {
+        getClaimById(+claimId)
+        .then ( response => {
+            if (response.status === 200) {
+                setClaim(response.data);
+            }
+            else {
+                console.log("something went wrong", response.status)
+            }
+        })
+        .then (
+
+        )
+        .catch( error => {
+            console.log("something went wrong", error);
+        })
+        console.log(claim)
+    
+    }
 
     const loadData = () => {
         getAllClaimsAxiosVersion()
             .then ( response => {
                 if (response.status === 200) {
-                    setAllClaims(response.data);
+                    setIsLoading(false);
+                    setClaims(response.data);
                 }
                 else {
                     console.log("something went wrong", response.status)
@@ -25,12 +47,11 @@ const EditClaim = (props) => {
             .catch( error => {
                 console.log("something went wrong", error);
             })
+           
     }
 
     useEffect( ()=> {
             loadData();
-            const thisClaim = allClaims.find(thisClaim => thisClaim.policyNumber === +claimId)
-            setClaim(thisClaim);
         }, [] );
 
     const navigate = useNavigate();
