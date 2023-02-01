@@ -10,7 +10,7 @@ import ClaimSearch from './components/ClaimSearch/ClaimSearch';
 import ClaimDetails from "./components/ClaimDetails/ClaimDetails";
 import EditClaim from "./components/ClaimDetails/EditClaim";
 import FindClaimsPage from "./components/ClaimSearch/FindClaimsPage";
-import { getAllClaims } from "./data/DataFunctions";
+import { getAllClaimsAxios } from "./data/DataFunctions";
 import Login from "./components/Login";
 import { UserContext } from "./components/contexts/UserContext";
 import { BrowserRouter } from 'react-router-dom';
@@ -19,7 +19,7 @@ import store from './store/store';
 const App = () => {
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [newClaims, setNewClaims] = useState(getAllClaims);
+
   const [currentUser, setCurrentUser] = useState({ name : "", role : ""});
 
   return (
@@ -37,7 +37,7 @@ const App = () => {
                     <Route path="/claimsearch/:id" 
                         element={<FindClaimsPage searchTerm={searchTerm} setSearchTerm={setSearchTerm} />} />
                     <Route path="/claim/:id" element={<ClaimDetails/>} />
-                    <Route path="/edit/:id" element={<EditClaim newClaims={newClaims} setNewClaims={setNewClaims}/>} />
+                    <Route path="/edit/:id" element={<EditClaim/>} />
                     <Route path="*" element = { <div className="container"><h1>Sorry - that page doesn't exist</h1></div>}/>
                 </Route>
                 </Routes>

@@ -6,16 +6,18 @@ import { useEffect } from "react";
 const FindClaimsPage = (props) => {
 
     const params = useParams();
+    console.log(params.id)
+    console.log(props.searchTerm)
 
     useEffect( ()=> {
-        if (params.policyNumber != null && params.policyNumber !== props.searchTerm) {
+        if (params.id != null && params.id !== props.searchTerm) {
             props.setSearchTerm(props.searchTerm);
         }
-    } , [params.policyNumber]);
+    } , [params.id]);
 
     useEffect ( () => {
-        if (params.policyNumber != null) {
-            props.setSearchTerm(params.policyNumber)
+        if (params.id != null) {
+            props.setSearchTerm(params.id)
         }
     } , []);
 

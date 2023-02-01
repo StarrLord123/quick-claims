@@ -1,37 +1,34 @@
 import './ClaimSearch.css';
-import {getAllClaimsAxiosVersion, getAllClaimsForPolicyNumber} from '../../data/DataFunctions';
+import {getAllClaimsAxiosVersion} from '../../data/DataFunctions';
 import ClaimSearchTableRow from "./ClaimSearchTableRow";
 import { useEffect, useState } from 'react';
+import ClaimSearch from './ClaimSearch';
 
 const Claims = (props) => {
 
     const [claims, setClaims] = useState([]);
-    const [claimsSearch, setClaimsSearch] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect( () => {
         if(props.searchTerm !== "") {
             setIsLoading(true);
-            
             getAllClaimsAxiosVersion()
                 .then( response => {
-                        setClaimsSearch(response.data);
+                        const claim = response.data.filter((claim) => {
+                            return (
+                                claim.policyNumber.includes(props.searchTerm) ||
+                                claim.insuranceType.toLowerCase().includes(props.searchTerm.toLowerCase()) ||
+                                claim.surname.toLowerCase().includes(props.searchTerm.toLowerCase())
+                            );
+                            });
+                        setClaims(claim);
                         setIsLoading(false);
                 } )
                 .catch ( error => {
                     console.log("something went wrong", error);
                 })
-
-            const claim = claimsSearch.filter((claim) => {
-                return (
-                    claim.policyNumber.toString().includes(props.searchTerm) ||
-                    claim.insuranceType.toLowerCase().includes(props.searchTerm.toLowerCase()) ||
-                    claim.surname.toLowerCase().includes(props.searchTerm.toLowerCase())
-                );
-                });
-            setClaims(claim);
         }
-        else loadData();
+        else {loadData();}
     }, [props.searchTerm]  );
 
 
@@ -50,10 +47,6 @@ const Claims = (props) => {
                 console.log("something went wrong", error);
             })
     }
-
-    useEffect( ()=> {
-            loadData();
-        }, [] );
 
     return (<>
             {isLoading && <p style={{textAlign:"center"}} >Please wait... loading</p>}

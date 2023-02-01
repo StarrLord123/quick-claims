@@ -9,35 +9,16 @@ const ClaimDetails = () =>
     const claimId = params.id;
 
     const [claim, setClaim] = useState([]);
-    const [claims, setClaims] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
-    if (claim.length === 0) {
-        getClaimById(+claimId)
-        .then ( response => {
-            if (response.status === 200) {
-                setClaim(response.data);
-            }
-            else {
-                console.log("something went wrong", response.status)
-            }
-        })
-        .then (
-
-        )
-        .catch( error => {
-            console.log("something went wrong", error);
-        })
-        console.log(claim)
-    
-    }
-
     const loadData = () => {
-        getAllClaimsAxiosVersion()
+        if (claim.length === 0) {
+            setIsLoading(true);
+            getClaimById(+claimId)
             .then ( response => {
                 if (response.status === 200) {
                     setIsLoading(false);
-                    setClaims(response.data);
+                    setClaim(response.data);
                 }
                 else {
                     console.log("something went wrong", response.status)
@@ -45,8 +26,8 @@ const ClaimDetails = () =>
             })
             .catch( error => {
                 console.log("something went wrong", error);
-            })
-           
+            })   
+        }     
     }
 
     useEffect( ()=> {
@@ -87,6 +68,10 @@ const ClaimDetails = () =>
                                 <tr>
                                     <td>Surname:</td>
                                     <td>{claim.surname}</td>
+                                </tr>
+                                <tr>
+                                    <td>Date:</td>
+                                    <td>{claim.date}</td>
                                 </tr>
                                 <tr>
                                     <td>Amount:</td>
@@ -143,7 +128,7 @@ const ClaimDetails = () =>
                                 </tr>
                             </tbody>
                         </table>
-                    {claim.status === "Open" && <button className="button"><NavLink className="nav-link" to={`/edit/${claim.id}`}>Edit</NavLink></button>}
+                    {claim.status === "Open" && <button className="button"><NavLink className="nav-link" to={`/edit/${claim.id}` }>Edit</NavLink></button>}
                 </div>
                 
                 <div className="text-center">
