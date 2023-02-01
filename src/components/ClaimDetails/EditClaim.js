@@ -1,8 +1,9 @@
 import { useReducer, useState, useEffect } from 'react'
-import { getAllClaimsAxiosVersion, getAllClaimsForPolicyNumber, getClaimById } from '../../data/DataFunctions';
+import { getClaimById, updateClaim } from '../../data/DataFunctions';
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import './EditClaim.css'
+import EditUpdatesSelector from './EditUpdatesSelector';
 
 const EditClaim = () => {
 
@@ -10,95 +11,74 @@ const EditClaim = () => {
     const claimId = params.id;
 
     const [claim, setClaim] = useState([]);
-    const [editclaim, setEditClaim] = useState([]);
+    //const [editClaim, setEditClaim] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [initialEditClaimState, setInitialEditClaimState] = useState([]);
-
+    const [message, setMessage] = useState("");
 
     const loadData = () => {
-            setIsLoading(true);
-            getClaimById(+claimId)
-            .then ( response => {
-                if (response.status === 200) {
-                    setIsLoading(false);
-                    setClaim(response.data);
+        setIsLoading(true);
+        getClaimById(+claimId)
+        .then ( response => {
+            if (response.status === 200) {
+                setIsLoading(false);
+                setClaim(response.data);
 
-                    setChosenOption(response.data.insuranceType);
-                    if(response.data.insuranceType === "Property") {
-                        setViewPropertyFields(true);
-                        setViewMotorFields(false);
-                        setViewPetFields(false);
-                    }   
-                    if(response.data.insuranceType === "Motor") {
-                        setViewMotorFields(true);
-                        setViewPropertyFields(false);
-                        setViewPetFields(false);
-                    }
-                    if(response.data.insuranceType === "Pet") {
-                        setViewPetFields(true);
-                        setViewPropertyFields(false);
-                        setViewMotorFields(false);
-                    }
-                    if(response.data.insuranceType === "") {
-                        setViewPetFields(false);
-                        setViewPropertyFields(false);
-                        setViewMotorFields(false);
-                    }
+                setChosenOption(response.data.insuranceType);
+                if(response.data.insuranceType === "Property") {
+                    setViewPropertyFields(true);
+                    setViewMotorFields(false);
+                    setViewPetFields(false);
+                }   
+                if(response.data.insuranceType === "Motor") {
+                    setViewMotorFields(true);
+                    setViewPropertyFields(false);
+                    setViewPetFields(false);
                 }
-                else {
-                    console.log("something went wrong", response.status)
+                if(response.data.insuranceType === "Pet") {
+                    setViewPetFields(true);
+                    setViewPropertyFields(false);
+                    setViewMotorFields(false);
                 }
-            })
-            .catch( error => {
-                console.log("something went wrong", error);
-            })   
-       
+                if(response.data.insuranceType === "") {
+                    setViewPetFields(false);
+                    setViewPropertyFields(false);
+                    setViewMotorFields(false);
+                }
+            }
+            else {
+                console.log("something went wrong", response.status)
+            }
+        })
+        .catch( error => {
+            console.log("something went wrong", error);
+        })   
     }
 
     useEffect( ()=> {
-        if (claim.length === 0)
-            {loadData();
-
-            setInitialEditClaimState({
-                policyNumber : claim.policyNumber, 
-                date : new Date().toISOString().slice(0,10), 
-                insuranceType: claim.insuranceType, 
-                title: claim.title, 
-                forename : claim.forename, 
-                surname: claim.surname, 
-                amount: claim.amount, 
-                reason : claim.reason,
-                updates : claim.updates,  
-                status : claim.status,
-                propertyAddress : claim.propertyAddress,
-                vehicleMake : claim.vehicleMake,
-                vehicleModel : claim.vehicleModel,
-                vehicleYear : claim.vehicleYear,
-                animalType : claim.animalType,
-                animalBreed : claim.animalBreed})
-        }
-        }, [] );
+        loadData();
+        }, [claimId] );
 
     const navigate = useNavigate();
-
-
-    console.log("set init", initialEditClaimState)
-
 
     const formReducer = (state, data) => {
         return {...state, [data.field] : data.value}
     }
 
-    const [editClaim, dispatch] = useReducer(formReducer, initialEditClaimState);
-
-    console.log("editClaim", editClaim)
+    const [editClaim, dispatch] = useReducer(formReducer, claim);
 
     const handleChange = (event) => {
        dispatch({field : event.target.id, value : event.target.value});
     }
 
+    const changeUpdates = (updates) => {
+        dispatch({field : "updates", value : updates});
+    }
+
     const handleSubmit = (event) => {
+        setMessage("Saving...");
         event.preventDefault();
+
         
         // const updatedClaims = props.newClaims.filter(
         //     claim => claim.policyNumber !== editClaim.policyNumber
@@ -112,8 +92,26 @@ const EditClaim = () => {
         else{
             editClaim.status = "Open"
         }
+
+        editClaim.id = +claimId;
+
+        console.log("The claim", editClaim);
+
+        updateClaim(editClaim)
+            .then( response => {
+                if (response.status === 200) {
+                    setMessage("Transaction with id " + response.data.id + " has been edited");
+                }
+                else {
+                    setMessage("Something went wrong - status code was " + response.status);
+                }
+                
+            } )
+            .catch( error => {
+                setMessage("Something went wrong - " + error);
+            })
         
-        // props.setNewClaims([...updatedClaims, editClaim]);
+        // props.setNewClaims([...updatedClaims, claim]);
         //navigate(`/claim/${claim.policyNumber}`)
     } 
 
@@ -135,13 +133,13 @@ const EditClaim = () => {
             <div className="container form card rounded shadow p-3">
                 <form className="editClaimsForm" onSubmit={handleSubmit}  >
                     <label htmlFor="policyNumber">Policy Number *</label>
-                    <input type="number" id="policyNumber" value={editClaim.policyNumber} onChange={handleChange} />
+                    <input type="number" id="policyNumber" value={editClaim.policyNumber} defaultValue={claim.policyNumber} onChange={handleChange} />
 
                     <label htmlFor="date">Date *</label>
-                    <input type="date" id="date" value={editClaim.date} onChange={handleChange}/>
+                    <input type="date" id="date" value={editClaim.date} defaultValue={claim.date} onChange={handleChange}/>
 
                     <label htmlFor="title">Title *</label>
-                    <select id="title" value={editClaim.title} onChange={handleChange}>
+                    <select id="title" value={editClaim.title} defaultValue={claim.title} onChange={handleChange}>
                     <option value="" disabled={false}> ---select---</option>
                         <option value="Mr">Mr</option>
                         <option value="Ms">Ms</option>
@@ -149,10 +147,10 @@ const EditClaim = () => {
                     </select>
 
                     <label htmlFor="forename">Forename *</label>
-                    <input type="text"  id="forename" value={editClaim.forename} onChange={handleChange}/>
+                    <input type="text"  id="forename" value={editClaim.forename} defaultValue={claim.forename} onChange={handleChange}/>
 
                     <label htmlFor="surname">Surname *</label>
-                    <input type="text"  id="surname" value={editClaim.surname} onChange={handleChange}/>
+                    <input type="text"  id="surname" value={editClaim.surname} defaultValue={claim.surname} onChange={handleChange}/>
 
                     <label htmlFor="insuranceType">Insurance Type *</label>
                     <select id="insuranceType" value={chosenOption} 
@@ -188,47 +186,38 @@ const EditClaim = () => {
                     {viewPropertyFields &&
                         <div>
                             <label htmlFor="propertyAddress">Property Address *</label>
-                            <input type="text" id="propertyAddress" placeholder="Property Address" value={editClaim.propertyAddress} onChange={handleChange}/>
+                            <input type="text" id="propertyAddress" placeholder="Property Address" value={editClaim.propertyAddress} defaultValue={claim.propertyAddress} onChange={handleChange}/>
                         </div>}
                     {viewMotorFields &&
                         <div>
                             <label htmlFor="vehicleMake">Vehicle Make *</label>
-                            <input type="text" id="vehicleMake" placeholder="Vehicle Make*" value={editClaim.vehicleMake} onChange={handleChange}/>
+                            <input type="text" id="vehicleMake" placeholder="Vehicle Make*" value={editClaim.vehicleMake} defaultValue={claim.vehicleMake} onChange={handleChange}/>
 
                             <label htmlFor="vehicleModel">Vehicle model *</label>
-                            <input type="text" id="vehicleModel" placeholder="Vehicle model *" value={editClaim.vehicleModel} onChange={handleChange}/>
+                            <input type="text" id="vehicleModel" placeholder="Vehicle model *" value={editClaim.vehicleModel} defaultValue={claim.vehicleModel} onChange={handleChange}/>
 
                             <label htmlFor="vehicleYear">Vehicle Manufacture Year *</label>
-                            <input type="text" id="vehicleYear" placeholder="Vehicle Manufacture Year" value={editClaim.vehicleYear} onChange={handleChange}/>
+                            <input type="text" id="vehicleYear" placeholder="Vehicle Manufacture Year" value={editClaim.vehicleYear} defaultValue={claim.vehicleYear} onChange={handleChange}/>
                         </div>}
                     {viewPetFields &&
                         <div>
                             <label htmlFor="animalType">Animal Type *</label>
-                            <input type="text" id="animalType" placeholder="Animal Type" value={editClaim.animalType} onChange={handleChange}/>
+                            <input type="text" id="animalType" placeholder="Animal Type" value={editClaim.animalType} defaultValue={claim.animalType} onChange={handleChange}/>
 
                             <label htmlFor="animalBreed">Animal Breed *</label>
-                            <input type="text" id="animalBreed" placeholder="Animal Breed" value={editClaim.animalBreed} onChange={handleChange}/>
+                            <input type="text" id="animalBreed" placeholder="Animal Breed" value={editClaim.animalBreed} defaultValue={claim.animalBreed} onChange={handleChange}/>
                         </div>}
 
                     <label htmlFor="amount">Amount *</label>
-                    <input type="text"  id="amount" value={editClaim.amount} onChange={handleChange}/>
+                    <input type="text"  id="amount" value={editClaim.amount} defaultValue={claim.amount} onChange={handleChange}/>
 
                     <label htmlFor="reason">Reason *</label>
-                    <textarea type="text"  id="reason" value={editClaim.reason} onChange={handleChange} rows="4"/>
+                    <textarea type="text"  id="reason" value={editClaim.reason} defaultValue={claim.reason} onChange={handleChange} rows="4"/>
 
-                    <label htmlFor="updates">Updates *</label>
-                    <select id="updates" value={editClaim.updates} onChange={handleChange}>
-                    <option value="" disabled={false}> ---select---</option>
-                        <option value="New Claim">New Claim - Not yet assessed</option>
-                        <option value="Assessed">Assessed - Being worked on</option>
-                        <option value="Rejected">Rejected</option>
-                        <option value="Accepted - Awaiting Payment">Accepted - Awaiting payment</option>
-                        <option value="Accepted - Paid">Accepted - Paid</option>
-                        <option value="High Value">High Value Claim</option>
-                    </select>
+                    <EditUpdatesSelector value={editClaim.updates} defaultValue={claim.updates} changeUpdates={changeUpdates} />
 
                     <button className="button text-center" >Save</button>
-
+                    <div>{message}</div>
                 </form>
 
             </div>
@@ -238,3 +227,4 @@ const EditClaim = () => {
 }
 
 export default EditClaim;
+
