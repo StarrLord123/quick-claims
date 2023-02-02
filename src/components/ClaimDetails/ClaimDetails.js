@@ -1,5 +1,5 @@
 import React, { useEffect, useState} from "react";
-import { getAllClaimsAxiosVersion, getClaimById } from "../../data/DataFunctions";
+import { getClaimById } from "../../data/DataFunctions";
 import { useParams, NavLink } from "react-router-dom";
 import AddNoteTable from './AddNoteTable';
 
@@ -128,7 +128,8 @@ const ClaimDetails = () =>
                                 </tr>
                             </tbody>
                         </table>
-                    {claim.status === "Open" && <button className="button"><NavLink className="nav-link" to={`/edit/${claim.id}` }>Edit</NavLink></button>}
+                    {(claim.status == "new claim"|| claim.status == "assessed" || claim.status == "accepted - awaiting payment" || claim.status == "high value")  
+                        && <button className="button"><NavLink className="nav-link" to={`/edit/${claim.id}` }>Edit</NavLink></button>}
                 </div>
                 
                 <div className="text-center">

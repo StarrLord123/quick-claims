@@ -1,12 +1,12 @@
 import { useReducer, useState, useEffect } from 'react'
 import { addNewClaim } from '../../data/DataFunctions'
-import { getAllClaimsAxiosVersion } from '../../data/DataFunctions';
+import { useNavigate } from 'react-router-dom';
 import './AddClaim.css'
-import UpdatesSelector from '../OpenClaims/UpdatesSelector';
 
 const AddClaim = () => {
 
     const [message, setMessage] = useState("");
+    const navigate = useNavigate();
     
     const initialNewClaimState = {
         policyNumber : "", 
@@ -17,7 +17,7 @@ const AddClaim = () => {
         surname: "",
         amount: "",
         reason : "",
-        updates : "",
+        status : "",
         status : ""
     }
 
@@ -31,24 +31,16 @@ const AddClaim = () => {
        dispatch({field : event.target.id, value : event.target.value});
     }
 
-    const changeUpdates = (updates) => {
-        dispatch({field : "updates", value : updates});
-    }
-
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (newClaim.updates === "Accepted - Paid" || newClaim.updates === "Rejected") {
-            newClaim.status = "Closed"
-        }
-        else{
-            newClaim.status = "Open"
-        }
+        newClaim.status = "new claim";
         newClaim.insuranceType = chosenOption;
         setMessage("Saving...");
         addNewClaim(newClaim)
             .then( response => {
                 if (response.status === 200) {
                     setMessage("New transaction added with id " + response.data.id);
+                    navigate(`/claim/${response.data.id}`);
                 }
                 else {
                     setMessage("Something went wrong - status code was " + response.status);
@@ -58,6 +50,7 @@ const AddClaim = () => {
             .catch( error => {
                 setMessage("Something went wrong - " + error);
             })
+        
     } 
     
     const [viewPropertyFields, setViewPropertyFields] = useState(false);
@@ -161,9 +154,10 @@ const AddClaim = () => {
                 <input type="number"  id="amount" placeholder="£" value={newClaim.amount} onChange={handleChange}/>
 
                 <label htmlFor="reason">Reason *</label>
-                <textarea type="text"  id="reason" placeholder="Reason" value={newClaim.reason} onChange={handleChange} rows="4"/>
+                <textarea type="text"  id="reason" placeholder="Reason" value={newClaim.reason} onChange={handleChange} rows="4" cols="40"/>
 
-                <UpdatesSelector value={newClaim.updates} changeUpdates={changeUpdates} />
+                <label htmlFor="updates">Updates *</label>
+                <textarea type="text"  id="updates" placeholder="Updates" value={newClaim.updates} onChange={handleChange} rows="4" cols="40"/>
 
                 <button className="button text-center" type="submit" >Save</button>
                 <div>{message}</div>

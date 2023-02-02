@@ -1,8 +1,8 @@
 import './OpenClaims.css';
 import {useEffect, useState} from 'react';
-import {getAllClaimsForUpdates} from '../../data/DataFunctions';
+import {getAllClaimsForStatus} from '../../data/DataFunctions';
 import OpenClaimsTableRow from "./OpenClaimsTableRow";
-import UpdatesSelector from './UpdatesSelector';
+import StatusSelector from './StatusSelector';
 import { useSearchParams } from 'react-router-dom';
 
 
@@ -13,8 +13,8 @@ const Claims = () => {
 
     const [searchParams, setSearchParams] = useSearchParams();
 
-    const loadData = (updates) => {
-        getAllClaimsForUpdates(updates)
+    const loadData = (status) => {
+        getAllClaimsForStatus(status)
             .then ( response => {
                 if (response.status === 200) {
                     setIsLoading(false);
@@ -31,29 +31,30 @@ const Claims = () => {
     
     //debugger;
        
-    const [selectedUpdates, setSelectedUpdates] = useState("");
+    const [selectedStatus, setSelectedStatus] = useState("");
 
     useEffect( ()=> {
-        const updates = searchParams.get("updates");
-        if (updates !== selectedUpdates) {
-            setSelectedUpdates(updates);
-            loadData(updates);
+        const status = searchParams.get("status");
+        if (status !== selectedStatus) {
+            setSelectedStatus(status);
+            loadData(status);
         }
      }, [searchParams] );
 
-    const changeUpdates = (updates) => {
-        setSearchParams({"updates" : updates});
+    const changeStatus = (status) => {
+        setSearchParams({"status" : status});
+        console.log("status", status)
     }
 
     return (
         <>
         <div className="container">
             <div className="text-center">
-                <h1>Claims By Status Update</h1>
+                <h1>Claims By Status </h1>
             </div>
             <div className="container form card rounded shadow p-3">
                 <form className="updatesSelector">
-                    {!isLoading  && <UpdatesSelector changeUpdates={changeUpdates}  />}
+                    {!isLoading  && <StatusSelector changeStatus={changeStatus}  />}
                 </form>
             </div>
                 {isLoading && <p style={{textAlign:"center"}} >Please wait... loading</p>}
@@ -73,7 +74,7 @@ const Claims = () => {
                         <tbody>
                         {claims
                             .map( (claim, index)  => {
-                            return claim.updates === selectedUpdates && <OpenClaimsTableRow key={index} id={claim.id} policyNumber={claim.policyNumber} insuranceType={claim.insuranceType} surname={claim.surname} 
+                            return claim.status === selectedStatus && <OpenClaimsTableRow key={index} id={claim.id} policyNumber={claim.policyNumber} insuranceType={claim.insuranceType} surname={claim.surname} 
                             updates={claim.updates} status={claim.status} details/> })}
                         </tbody>
                     </table>}

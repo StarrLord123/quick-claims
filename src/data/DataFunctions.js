@@ -22,9 +22,9 @@ export const getAllClaimsAxiosVersion  = () => {
             })
 }
 
-export const getAllClaimsForUpdates = (updates) => {
-    console.log("getallclaimsforupdates")
-    return axios({url : "http://localhost:8080/api/claim?updates="+updates,
+export const getAllClaimsForStatus = (status) => {
+    console.log("getallclaimsforstatus", status)
+    return axios({url : "http://localhost:8080/api/claim?status="+status,
             method: "GET", 
             headers: {"Accept" : "application/json"}
             })
@@ -44,9 +44,9 @@ export const getClaimById  = (id) => {
             })
 }
 
-export const getUpdates = ()  => {
-    console.log("getupdates")
-    return axios({url : "http://localhost:8080/api/updates",
+export const getAllStatuses = ()  => {
+    console.log("getstatuses")
+    return axios({url : "http://localhost:8080/api/status",
             method: "GET", 
             headers: {"Accept" : "application/json"}
             })

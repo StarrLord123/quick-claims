@@ -3,7 +3,6 @@ import { getClaimById, updateClaim } from '../../data/DataFunctions';
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import './EditClaim.css'
-import EditUpdatesSelector from './EditUpdatesSelector';
 
 const EditClaim = () => {
 
@@ -71,22 +70,13 @@ const EditClaim = () => {
        dispatch({field : event.target.id, value : event.target.value});
     }
 
-    const changeUpdates = (updates) => {
-        dispatch({field : "updates", value : updates});
-    }
-
     const handleSubmit = (event) => {
         setMessage("Saving...");
         event.preventDefault();
 
-        
-        // const updatedClaims = props.newClaims.filter(
-        //     claim => claim.policyNumber !== editClaim.policyNumber
-        // )
-
         editClaim.insuranceType = chosenOption;
 
-        if (editClaim.updates === "Accepted - Paid" || editClaim.updates === "Rejected") {
+        if (editClaim.status === "Accepted - Paid" || editClaim.status === "Rejected") {
             editClaim.status = "Closed"
         }
         else{
@@ -111,8 +101,7 @@ const EditClaim = () => {
                 setMessage("Something went wrong - " + error);
             })
         
-        // props.setNewClaims([...updatedClaims, claim]);
-        //navigate(`/claim/${claim.policyNumber}`)
+        navigate(`/claim/${editClaim.id}`);
     } 
 
     const [viewPropertyFields, setViewPropertyFields] = useState(false);
@@ -212,9 +201,21 @@ const EditClaim = () => {
                     <input type="text"  id="amount" value={editClaim.amount} defaultValue={claim.amount} onChange={handleChange}/>
 
                     <label htmlFor="reason">Reason *</label>
-                    <textarea type="text"  id="reason" value={editClaim.reason} defaultValue={claim.reason} onChange={handleChange} rows="4"/>
+                    <textarea type="text"  id="reason" value={editClaim.reason} defaultValue={claim.reason} onChange={handleChange} rows="4" cols="40"/>
 
-                    <EditUpdatesSelector value={editClaim.updates} defaultValue={claim.updates} changeUpdates={changeUpdates} />
+                    <label htmlFor="updates">Updates *</label>
+                    <textarea type="text"  id="updates" value={editClaim.updates} defaultValue={claim.updates} onChange={handleChange} rows="4" cols="40"/>
+
+                    <label htmlFor="status">Status *</label>
+                    <select id="status" value={editClaim.status} defaultValue={claim.status} onChange={handleChange}>
+                    <option value="" disabled={false}> ---select---</option>
+                        <option value="new claim">New Claim - Not yet assessed</option>
+                        <option value="assessed">Assessed - Being worked on</option>
+                        <option value="rejected">Rejected</option>
+                        <option value="accepted - awaiting payment">Accepted - Awaiting payment</option>
+                        <option value="accepted - paid">Accepted - Paid</option>
+                        <option value="high value">High Value Claim</option>
+                    </select>
 
                     <button className="button text-center" >Save</button>
                     <div>{message}</div>
