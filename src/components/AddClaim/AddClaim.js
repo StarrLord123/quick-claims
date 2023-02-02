@@ -1,12 +1,14 @@
-import { useReducer, useState, useEffect } from 'react'
+import { useContext, useReducer, useState, useEffect } from 'react'
 import { addNewClaim } from '../../data/DataFunctions'
 import { useNavigate } from 'react-router-dom';
 import './AddClaim.css'
+import { UserContext } from '../contexts/UserContext';
 
 const AddClaim = () => {
 
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
+    const currentUser = useContext(UserContext);
     
     const initialNewClaimState = {
         policyNumber : "", 
@@ -36,7 +38,7 @@ const AddClaim = () => {
         newClaim.status = "new claim";
         newClaim.insuranceType = chosenOption;
         setMessage("Saving...");
-        addNewClaim(newClaim)
+        addNewClaim(newClaim, currentUser.user.name, currentUser.user.password)
             .then( response => {
                 if (response.status === 200) {
                     setMessage("New transaction added with id " + response.data.id);
@@ -154,11 +156,11 @@ const AddClaim = () => {
                 <input type="number"  id="amount" placeholder="£" value={newClaim.amount} onChange={handleChange}/>
 
                 <label htmlFor="reason">Reason *</label>
-                <textarea type="text"  id="reason" placeholder="Reason" value={newClaim.reason} onChange={handleChange} rows="4" cols="40"/>
-
+                <textarea type="text"  id="reason" placeholder="Reason" value={newClaim.reason} onChange={handleChange} rows="4" cols="30"/>
+                <br></br>
                 <label htmlFor="updates">Updates *</label>
-                <textarea type="text"  id="updates" placeholder="Updates" value={newClaim.updates} onChange={handleChange} rows="4" cols="40"/>
-
+                <textarea type="text"  id="updates" placeholder="Updates" value={newClaim.updates} onChange={handleChange} rows="4" cols="30"/>
+                <br></br>
                 <button className="button text-center" type="submit" >Save</button>
                 <div>{message}</div>
             </form>

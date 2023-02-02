@@ -1,7 +1,8 @@
-import React, { useEffect, useState} from "react";
+import React, { useContext, useEffect, useState} from "react";
 import { getClaimById } from "../../data/DataFunctions";
 import { useParams, NavLink } from "react-router-dom";
 import AddNoteTable from './AddNoteTable';
+import { UserContext } from '../contexts/UserContext';
 
 const ClaimDetails = () =>  
 {
@@ -10,11 +11,12 @@ const ClaimDetails = () =>
 
     const [claim, setClaim] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const currentUser = useContext(UserContext);
 
     const loadData = () => {
         if (claim.length === 0) {
             setIsLoading(true);
-            getClaimById(+claimId)
+            getClaimById(+claimId, currentUser.user.name, currentUser.user.password)
             .then ( response => {
                 if (response.status === 200) {
                     setIsLoading(false);

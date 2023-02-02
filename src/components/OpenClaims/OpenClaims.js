@@ -1,20 +1,22 @@
 import './OpenClaims.css';
-import {useEffect, useState} from 'react';
+import { useContext, useEffect, useState} from 'react';
 import {getAllClaimsForStatus} from '../../data/DataFunctions';
 import OpenClaimsTableRow from "./OpenClaimsTableRow";
 import StatusSelector from './StatusSelector';
 import { useSearchParams } from 'react-router-dom';
+import { UserContext } from '../contexts/UserContext';
 
 
 const Claims = () => {
 
     const [claims, setClaims] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const currentUser = useContext(UserContext);
 
     const [searchParams, setSearchParams] = useSearchParams();
 
     const loadData = (status) => {
-        getAllClaimsForStatus(status)
+        getAllClaimsForStatus(status, currentUser.user.name, currentUser.user.password)
             .then ( response => {
                 if (response.status === 200) {
                     setIsLoading(false);

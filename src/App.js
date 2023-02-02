@@ -15,6 +15,7 @@ import Login from "./components/Login";
 import { UserContext } from "./components/contexts/UserContext";
 import { BrowserRouter } from 'react-router-dom';
 import store from './store/store';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const App = () => {
 
@@ -30,14 +31,20 @@ const App = () => {
                 <Route element = {<Menu />}>
                     <Route index element={<Welcome/>} />
                     <Route path="/login" element = {<Login />} />
-                    <Route path="/addclaim" element={<AddClaim/>} />
-                    <Route path="/openclaims" element={<OpenClaims/>} />
-                    <Route path="/claimsearch" 
-                        element={<ClaimSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm} />} />
-                    <Route path="/claimsearch/:id" 
-                        element={<FindClaimsPage searchTerm={searchTerm} setSearchTerm={setSearchTerm} />} />
-                    <Route path="/claim/:id" element={<ClaimDetails/>} />
-                    <Route path="/edit/:id" element={<EditClaim/>} />
+                    <Route path="/addclaim" element={
+                        <ProtectedRoute path="addclaim" roles={["MANAGER"]} element = {<AddClaim/>} />} />
+                    <Route path="/openclaims" element={
+                        <ProtectedRoute path="openclaims" roles={["USER", "MANAGER"]} element = {<OpenClaims/>} />} />
+                    <Route path="/claimsearch" element={
+                        <ProtectedRoute path="claimsearch" roles={["USER", "MANAGER"]} element = {
+                        <ClaimSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm} />} /> } />
+                    <Route path="/claimsearch/:id" element={
+                        <ProtectedRoute path="claimsearch" roles={["USER", "MANAGER"]} element = {
+                        <FindClaimsPage searchTerm={searchTerm} setSearchTerm={setSearchTerm} />} /> } />
+                    <Route path="/claim/:id" element={
+                        <ProtectedRoute path="claim" roles={["USER", "MANAGER"]} element = {<ClaimDetails/>} />} />
+                    <Route path="/edit/:id" element={
+                        <ProtectedRoute path="edit" roles={["MANAGER"]} element = {<EditClaim/>} />} />
                     <Route path="*" element = { <div className="container"><h1>Sorry - that page doesn't exist</h1></div>}/>
                 </Route>
                 </Routes>

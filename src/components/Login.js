@@ -1,11 +1,15 @@
 import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { UserContext } from "./contexts/UserContext";
+import { login } from "../data/DataFunctions";
 
 const Login = () => {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+
+    const [params, setParams] = useSearchParams();
+    const target = params.get("target");
 
     const currentUser = useContext(UserContext);
     
@@ -21,11 +25,14 @@ const Login = () => {
 
     const submitForm = (event) => {
         event.preventDefault();
-        //simualte a rest call to do the login
-        
-        currentUser.setUser({name : username, role : "admin"});
-
-        navigate("/");
+        login(username, password).then (
+            result => {
+                console.log(result)
+                currentUser.setUser({name : result.data.username, role : result.data.role, password: password});
+                target != null ? navigate("/" + target) : navigate("/");
+            }
+        )
+        .catch( error => console.log("login didn't work"));
     }
 
     return (

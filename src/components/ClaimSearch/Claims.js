@@ -1,18 +1,21 @@
 import './ClaimSearch.css';
 import {getAllClaimsAxiosVersion} from '../../data/DataFunctions';
 import ClaimSearchTableRow from "./ClaimSearchTableRow";
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import ClaimSearch from './ClaimSearch';
+import { UserContext } from '../contexts/UserContext';
 
 const Claims = (props) => {
 
     const [claims, setClaims] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const currentUser = useContext(UserContext);
+
 
     useEffect( () => {
         if(props.searchTerm !== "") {
             setIsLoading(true);
-            getAllClaimsAxiosVersion()
+            getAllClaimsAxiosVersion(currentUser.user.name, currentUser.user.password)
                 .then( response => {
                         const claim = response.data.filter((claim) => {
                             return (
@@ -33,7 +36,7 @@ const Claims = (props) => {
 
 
     const loadData = () => {
-        getAllClaimsAxiosVersion()
+        getAllClaimsAxiosVersion(currentUser.user.name, currentUser.user.password)
             .then ( response => {
                 if (response.status === 200) {
                     setIsLoading(false);

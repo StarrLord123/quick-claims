@@ -1,8 +1,9 @@
-import { useReducer, useState, useEffect } from 'react'
+import { useContext, useReducer, useState, useEffect } from 'react'
 import { getClaimById, updateClaim } from '../../data/DataFunctions';
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import './EditClaim.css'
+import { UserContext } from '../contexts/UserContext';
 
 const EditClaim = () => {
 
@@ -14,10 +15,11 @@ const EditClaim = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [initialEditClaimState, setInitialEditClaimState] = useState([]);
     const [message, setMessage] = useState("");
+    const currentUser = useContext(UserContext);
 
     const loadData = () => {
         setIsLoading(true);
-        getClaimById(+claimId)
+        getClaimById(+claimId, currentUser.user.name, currentUser.user.password)
         .then ( response => {
             if (response.status === 200) {
                 setIsLoading(false);
@@ -76,18 +78,11 @@ const EditClaim = () => {
 
         editClaim.insuranceType = chosenOption;
 
-        if (editClaim.status === "Accepted - Paid" || editClaim.status === "Rejected") {
-            editClaim.status = "Closed"
-        }
-        else{
-            editClaim.status = "Open"
-        }
-
         editClaim.id = +claimId;
 
         console.log("The claim", editClaim);
 
-        updateClaim(editClaim)
+        updateClaim(editClaim, currentUser.user.name, currentUser.user.password)
             .then( response => {
                 if (response.status === 200) {
                     setMessage("Transaction with id " + response.data.id + " has been edited");
@@ -201,11 +196,11 @@ const EditClaim = () => {
                     <input type="text"  id="amount" value={editClaim.amount} defaultValue={claim.amount} onChange={handleChange}/>
 
                     <label htmlFor="reason">Reason *</label>
-                    <textarea type="text"  id="reason" value={editClaim.reason} defaultValue={claim.reason} onChange={handleChange} rows="4" cols="40"/>
-
+                    <textarea type="text"  id="reason" value={editClaim.reason} defaultValue={claim.reason} onChange={handleChange} rows="4" cols="30"/>
+                    <br></br>
                     <label htmlFor="updates">Updates *</label>
-                    <textarea type="text"  id="updates" value={editClaim.updates} defaultValue={claim.updates} onChange={handleChange} rows="4" cols="40"/>
-
+                    <textarea type="text"  id="updates" value={editClaim.updates} defaultValue={claim.updates} onChange={handleChange} rows="4" cols="30"/>
+                    <br></br>
                     <label htmlFor="status">Status *</label>
                     <select id="status" value={editClaim.status} defaultValue={claim.status} onChange={handleChange}>
                     <option value="" disabled={false}> ---select---</option>
@@ -216,7 +211,7 @@ const EditClaim = () => {
                         <option value="accepted - paid">Accepted - Paid</option>
                         <option value="high value">High Value Claim</option>
                     </select>
-
+                    <br></br>
                     <button className="button text-center" >Save</button>
                     <div>{message}</div>
                 </form>
