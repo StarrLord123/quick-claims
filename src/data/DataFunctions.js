@@ -37,6 +37,13 @@ export const getAllClaimsForPolicyNumber  = (policyNumber) => {
             })
 }
 
+export const getAllNotesForClaim  = (claimId, username, password) => {
+    return axios({url : "http://localhost:8080/api/claim/"+claimId+"/notes",
+            method: "GET", 
+            headers: {"Accept" : "application/json", ...getAuthHeader(username, password)}
+            })
+}
+
 export const getClaimById  = (id, username, password) => {
     return axios({url : "http://localhost:8080/api/claim/"+id,
             method: "GET", 

@@ -3,6 +3,7 @@ import { getClaimById } from "../../data/DataFunctions";
 import { useParams, NavLink } from "react-router-dom";
 import AddNoteTable from './AddNoteTable';
 import { UserContext } from '../contexts/UserContext';
+import NoteTable from "./NoteTable";
 
 const ClaimDetails = () =>  
 {
@@ -135,13 +136,13 @@ const ClaimDetails = () =>
                 </div>
                 
                 <div className="text-center">
-                    <h2>Tasks</h2>
+                    <h2>Notes</h2>
                     </div>
 
                 <div/>
 
                 <div className="container form card rounded shadow p-3">
-                    <AddNoteTable/>
+                    <NoteTable/>
                 </div>
 
             </div>
