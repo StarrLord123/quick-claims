@@ -19,7 +19,9 @@ const Menu = () =>
             {currentUser.user.name !== "" && <p>Current user : {currentUser.user.name}</p>}
         </div>}
         <div className="container logo">
+            <NavLink to="/">
             <img className="speedyClaimsLogo" src={SpeedyClaims} alt="Quick Claims Logo"></img>
+            </NavLink>
         </div>
 
         <nav>  

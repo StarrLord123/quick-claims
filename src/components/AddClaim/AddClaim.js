@@ -1,5 +1,5 @@
 import { useContext, useReducer, useState, useEffect } from 'react'
-import { addNewClaim } from '../../data/DataFunctions'
+import { addNewClaim, getAllClaimsForPolicyNumber, getClaimById } from '../../data/DataFunctions'
 import { useNavigate } from 'react-router-dom';
 import './AddClaim.css'
 import { UserContext } from '../contexts/UserContext';
@@ -38,21 +38,28 @@ const AddClaim = () => {
         newClaim.status = "new claim";
         newClaim.insuranceType = chosenOption;
         setMessage("Saving...");
-        addNewClaim(newClaim, currentUser.user.name, currentUser.user.password)
+        getAllClaimsForPolicyNumber(newClaim.policyNumber, currentUser.user.name, currentUser.user.password)
             .then( response => {
-                if (response.status === 200) {
-                    setMessage("New transaction added with id " + response.data.id);
-                    navigate(`/claim/${response.data.id}`);
+                if (response.data.length > 0) {
+                    setMessage("Policy number " + newClaim.policyNumber + " already exists, please select a different policy number")
                 }
-                else {
-                    setMessage("Something went wrong - status code was " + response.status);
+                else{
+                    addNewClaim(newClaim, currentUser.user.name, currentUser.user.password)
+                    .then( response => {
+                        if (response.status === 200) {
+                            setMessage("New transaction added with id " + response.data.id);
+                            navigate(`/claim/${response.data.id}`);
+                        }
+                        else {
+                            setMessage("Something went wrong - status code was " + response.status);
+                        }
+                        
+                    } )
+                    .catch( error => {
+                        setMessage("Something went wrong - " + error);
+                    })
                 }
-                
-            } )
-            .catch( error => {
-                setMessage("Something went wrong - " + error);
-            })
-        
+            })       
     } 
     
     const [viewPropertyFields, setViewPropertyFields] = useState(false);

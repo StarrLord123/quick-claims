@@ -1,5 +1,5 @@
 import { useContext, useReducer, useState, useEffect } from 'react'
-import { getClaimById, updateClaim } from '../../data/DataFunctions';
+import { getClaimById, updateClaim, getAllClaimsForPolicyNumber } from '../../data/DataFunctions';
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import './EditClaim.css'
@@ -13,7 +13,6 @@ const EditClaim = () => {
     const [claim, setClaim] = useState([]);
     //const [editClaim, setEditClaim] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [initialEditClaimState, setInitialEditClaimState] = useState([]);
     const [message, setMessage] = useState("");
     const currentUser = useContext(UserContext);
 
@@ -80,23 +79,31 @@ const EditClaim = () => {
 
         editClaim.id = +claimId;
 
-        console.log("The claim", editClaim);
-
-        updateClaim(editClaim, currentUser.user.name, currentUser.user.password)
-            .then( response => {
-                if (response.status === 200) {
-                    setMessage("Transaction with id " + response.data.id + " has been edited");
-                }
-                else {
-                    setMessage("Something went wrong - status code was " + response.status);
-                }
-                
-            } )
-            .catch( error => {
-                setMessage("Something went wrong - " + error);
-            })
+        console.log("Policy Number", editClaim.policyNumber);
         
-        navigate(`/claim/${editClaim.id}`);
+        getAllClaimsForPolicyNumber(editClaim.policyNumber, currentUser.user.name, currentUser.user.password)
+        .then( response => {
+            if (response.data.length > 0) {
+                setMessage("Policy number " + editClaim.policyNumber + " already exists, please select a different policy number")
+            }
+            else{
+                updateClaim(editClaim, currentUser.user.name, currentUser.user.password)
+                    .then( response => {
+                        if (response.status === 200) {
+                            setMessage("Transaction with id " + response.data.id + " has been edited");
+                        }
+                        else {
+                            setMessage("Something went wrong - status code was " + response.status);
+                        }
+                        
+                    } )
+                    .catch( error => {
+                        setMessage("Something went wrong - " + error);
+                    })
+        
+                navigate(`/claim/${editClaim.id}`);
+            }
+        })       
     } 
 
     const [viewPropertyFields, setViewPropertyFields] = useState(false);

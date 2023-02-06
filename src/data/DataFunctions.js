@@ -30,10 +30,10 @@ export const getAllClaimsForStatus = (status, username, password) => {
             })
 }
 
-export const getAllClaimsForPolicyNumber  = (policyNumber) => {
+export const getAllClaimsForPolicyNumber  = (policyNumber, username, password) => {
     return axios({url : "http://localhost:8080/api/claim?policyNumber="+policyNumber,
             method: "GET", 
-            headers: {"Accept" : "application/json"}
+            headers: {"Accept" : "application/json", ...getAuthHeader(username, password)}
             })
 }
 
@@ -72,6 +72,14 @@ export const updateClaim = (claim, username, password) => {
                     method: "PUT",
                     headers: {"Accept" : "application/json", "Content-Type": "application/json", ...getAuthHeader(username, password)},
                     data : claim
+                })
+}
+
+export const saveNotes = (claimId, note, username, password) => {
+    return axios({url : "http://localhost:8080/api/claim/"+claimId+"/notes/",
+                    method: "POST",
+                    headers: {"Accept" : "application/json", "Content-Type": "application/json", ...getAuthHeader(username, password)},
+                    data : note
                 })
 }
 
