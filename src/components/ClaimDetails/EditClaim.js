@@ -11,10 +11,16 @@ const EditClaim = () => {
     const claimId = params.id;
 
     const [claim, setClaim] = useState([]);
-    //const [editClaim, setEditClaim] = useState([]);
+    const [editClaim, setEditClaim] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [message, setMessage] = useState("");
     const currentUser = useContext(UserContext);
+
+    // const formReducer = (state, data) => {
+    //     return {...state, [data.field] : data.value}
+    // }
+
+    // const [editClaim, dispatch] = useReducer(formReducer, claim);
 
     const loadData = () => {
         setIsLoading(true);
@@ -23,7 +29,7 @@ const EditClaim = () => {
             if (response.status === 200) {
                 setIsLoading(false);
                 setClaim(response.data);
-
+                setEditClaim(response.data)
                 setChosenOption(response.data.insuranceType);
                 if(response.data.insuranceType === "Property") {
                     setViewPropertyFields(true);
@@ -61,14 +67,8 @@ const EditClaim = () => {
 
     const navigate = useNavigate();
 
-    const formReducer = (state, data) => {
-        return {...state, [data.field] : data.value}
-    }
-
-    const [editClaim, dispatch] = useReducer(formReducer, claim);
-
-    const handleChange = (event) => {
-       dispatch({field : event.target.id, value : event.target.value});
+    const handleChange = event => {
+       setEditClaim({ ...editClaim, [event.target.id] : event.target.value});
     }
 
     const handleSubmit = (event) => {
@@ -83,7 +83,7 @@ const EditClaim = () => {
         
         getAllClaimsForPolicyNumber(editClaim.policyNumber, currentUser.user.name, currentUser.user.password)
         .then( response => {
-            if (response.data.length > 0) {
+            if (response.data.length > 0 && claim.policyNumber !== editClaim.policyNumber) {
                 setMessage("Policy number " + editClaim.policyNumber + " already exists, please select a different policy number")
             }
             else{
@@ -124,13 +124,13 @@ const EditClaim = () => {
             <div className="container form card rounded shadow p-3">
                 <form className="editClaimsForm" onSubmit={handleSubmit}  >
                     <label htmlFor="policyNumber">Policy Number *</label>
-                    <input type="number" id="policyNumber" value={editClaim.policyNumber} defaultValue={claim.policyNumber} onChange={handleChange} />
+                    <input type="number" id="policyNumber" value={editClaim.policyNumber}  onChange={handleChange} />
 
                     <label htmlFor="date">Date *</label>
-                    <input type="date" id="date" value={editClaim.date} defaultValue={claim.date} onChange={handleChange}/>
+                    <input type="date" id="date" value={editClaim.date}  onChange={handleChange}/>
 
                     <label htmlFor="title">Title *</label>
-                    <select id="title" value={editClaim.title} defaultValue={claim.title} onChange={handleChange}>
+                    <select id="title" value={editClaim.title}  onChange={handleChange}>
                     <option value="" disabled={false}> ---select---</option>
                         <option value="Mr">Mr</option>
                         <option value="Ms">Ms</option>
@@ -138,10 +138,10 @@ const EditClaim = () => {
                     </select>
 
                     <label htmlFor="forename">Forename *</label>
-                    <input type="text"  id="forename" value={editClaim.forename} defaultValue={claim.forename} onChange={handleChange}/>
+                    <input type="text"  id="forename" value={editClaim.forename}  onChange={handleChange}/>
 
                     <label htmlFor="surname">Surname *</label>
-                    <input type="text"  id="surname" value={editClaim.surname} defaultValue={claim.surname} onChange={handleChange}/>
+                    <input type="text"  id="surname" value={editClaim.surname}  onChange={handleChange}/>
 
                     <label htmlFor="insuranceType">Insurance Type *</label>
                     <select id="insuranceType" value={chosenOption} 
@@ -177,39 +177,39 @@ const EditClaim = () => {
                     {viewPropertyFields &&
                         <div>
                             <label htmlFor="propertyAddress">Property Address *</label>
-                            <input type="text" id="propertyAddress" placeholder="Property Address" value={editClaim.propertyAddress} defaultValue={claim.propertyAddress} onChange={handleChange}/>
+                            <input type="text" id="propertyAddress" placeholder="Property Address" value={editClaim.propertyAddress} onChange={handleChange}/>
                         </div>}
                     {viewMotorFields &&
                         <div>
                             <label htmlFor="vehicleMake">Vehicle Make *</label>
-                            <input type="text" id="vehicleMake" placeholder="Vehicle Make*" value={editClaim.vehicleMake} defaultValue={claim.vehicleMake} onChange={handleChange}/>
+                            <input type="text" id="vehicleMake" placeholder="Vehicle Make*" value={editClaim.vehicleMake} onChange={handleChange}/>
 
                             <label htmlFor="vehicleModel">Vehicle model *</label>
-                            <input type="text" id="vehicleModel" placeholder="Vehicle model *" value={editClaim.vehicleModel} defaultValue={claim.vehicleModel} onChange={handleChange}/>
+                            <input type="text" id="vehicleModel" placeholder="Vehicle model *" value={editClaim.vehicleModel} onChange={handleChange}/>
 
                             <label htmlFor="vehicleYear">Vehicle Manufacture Year *</label>
-                            <input type="text" id="vehicleYear" placeholder="Vehicle Manufacture Year" value={editClaim.vehicleYear} defaultValue={claim.vehicleYear} onChange={handleChange}/>
+                            <input type="text" id="vehicleYear" placeholder="Vehicle Manufacture Year" value={editClaim.vehicleYear} onChange={handleChange}/>
                         </div>}
                     {viewPetFields &&
                         <div>
                             <label htmlFor="animalType">Animal Type *</label>
-                            <input type="text" id="animalType" placeholder="Animal Type" value={editClaim.animalType} defaultValue={claim.animalType} onChange={handleChange}/>
+                            <input type="text" id="animalType" placeholder="Animal Type" value={editClaim.animalType} onChange={handleChange}/>
 
                             <label htmlFor="animalBreed">Animal Breed *</label>
-                            <input type="text" id="animalBreed" placeholder="Animal Breed" value={editClaim.animalBreed} defaultValue={claim.animalBreed} onChange={handleChange}/>
+                            <input type="text" id="animalBreed" placeholder="Animal Breed" value={editClaim.animalBreed} onChange={handleChange}/>
                         </div>}
 
                     <label htmlFor="amount">Amount *</label>
-                    <input type="text"  id="amount" value={editClaim.amount} defaultValue={claim.amount} onChange={handleChange}/>
+                    <input type="text"  id="amount" value={editClaim.amount}  onChange={handleChange}/>
 
                     <label htmlFor="reason">Reason *</label>
-                    <textarea type="text"  id="reason" value={editClaim.reason} defaultValue={claim.reason} onChange={handleChange} rows="4" cols="30"/>
+                    <textarea type="text"  id="reason" value={editClaim.reason}  onChange={handleChange} rows="4" cols="30"/>
                     <br></br>
                     <label htmlFor="updates">Updates *</label>
-                    <textarea type="text"  id="updates" value={editClaim.updates} defaultValue={claim.updates} onChange={handleChange} rows="4" cols="30"/>
+                    <textarea type="text"  id="updates" value={editClaim.updates} onChange={handleChange} rows="4" cols="30"/>
                     <br></br>
                     <label htmlFor="status">Status *</label>
-                    <select id="status" value={editClaim.status} defaultValue={claim.status} onChange={handleChange}>
+                    <select id="status" value={editClaim.status}  onChange={handleChange}>
                     <option value="" disabled={false}> ---select---</option>
                         <option value="new claim">New Claim - Not yet assessed</option>
                         <option value="assessed">Assessed - Being worked on</option>

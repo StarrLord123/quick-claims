@@ -2,7 +2,6 @@ import './ClaimSearch.css';
 import {getAllClaimsAxiosVersion} from '../../data/DataFunctions';
 import ClaimSearchTableRow from "./ClaimSearchTableRow";
 import { useContext, useEffect, useState } from 'react';
-import ClaimSearch from './ClaimSearch';
 import { UserContext } from '../contexts/UserContext';
 
 const Claims = (props) => {
@@ -23,9 +22,9 @@ const Claims = (props) => {
                                 claim.insuranceType.toLowerCase().includes(props.searchTerm.toLowerCase()) ||
                                 claim.surname.toLowerCase().includes(props.searchTerm.toLowerCase())
                             );
-                            });
-                        setClaims(claim);
-                        setIsLoading(false);
+                        });
+                    setClaims(claim);
+                    setIsLoading(false);
                 } )
                 .catch ( error => {
                     console.log("something went wrong", error);

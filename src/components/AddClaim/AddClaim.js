@@ -1,5 +1,5 @@
-import { useContext, useReducer, useState, useEffect } from 'react'
-import { addNewClaim, getAllClaimsForPolicyNumber, getClaimById } from '../../data/DataFunctions'
+import { useContext, useReducer, useState } from 'react'
+import { addNewClaim, getAllClaimsForPolicyNumber } from '../../data/DataFunctions'
 import { useNavigate } from 'react-router-dom';
 import './AddClaim.css'
 import { UserContext } from '../contexts/UserContext';
@@ -14,13 +14,18 @@ const AddClaim = () => {
         policyNumber : "", 
         date : new Date().toISOString().slice(0,10),
         insuranceType: "", 
+        propertyAddress: "",
+        vehicleMake: "",
+        vehicleModel: "",
+        vehicleYear: "",
+        animalType: "",
+        animalBreed: "",
         title: "",
         forename : "",
         surname: "",
         amount: "",
         reason : "",
         status : "",
-        status : ""
     }
 
     const formReducer = (state, data) => {
