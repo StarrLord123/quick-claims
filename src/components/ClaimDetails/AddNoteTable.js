@@ -173,21 +173,21 @@ function AddNoteTable(props) {
                             </td>
 
                             <td>
-                            <button
+                            {(props.status === "new props"|| props.status === "assessed" || props.status === "accepted - awaiting payment" || props.status === "high value")
+                            && <button
                                 className="button text-center"
-                                disabled={props.status === "rejected" || props.status === "accepted - paid"}
                                 onClick={addNote}>Add New Row
-                            </button>
+                            </button>}
                             </td>
                         </tr>
                     }
                 </tbody>
             </table>}
-            <button
+            {(props.status === "new props"|| props.status === "assessed" || props.status === "accepted - awaiting payment" || props.status === "high value")
+                && <button
                 className="button text-center"
-                disabled={props.status === "rejected" || props.status === "accepted - paid"}
                 onClick={handleSubmit}>Save Notes
-            </button>
+            </button>}
             <div>{message}</div>
             
         </>;

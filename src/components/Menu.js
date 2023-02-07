@@ -16,7 +16,7 @@ const Menu = () =>
     return (
     <div>
         {currentUser.user.name !== "" &&<div className="container menu heading d-flex flex-row justify-content-between align-items-left text-white">
-            {currentUser.user.name !== "" && <p>Current user : {currentUser.user.name}</p>}
+            {currentUser.user.name !== "" && <p>Current user : {currentUser.user.name} Role: {currentUser.user.role}</p>}
         </div>}
         <div className="container logo">
             <NavLink to="/">

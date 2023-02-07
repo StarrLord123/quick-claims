@@ -16,12 +16,6 @@ const EditClaim = () => {
     const [message, setMessage] = useState("");
     const currentUser = useContext(UserContext);
 
-    // const formReducer = (state, data) => {
-    //     return {...state, [data.field] : data.value}
-    // }
-
-    // const [editClaim, dispatch] = useReducer(formReducer, claim);
-
     const loadData = () => {
         setIsLoading(true);
         getClaimById(+claimId, currentUser.user.name, currentUser.user.password)
@@ -70,6 +64,12 @@ const EditClaim = () => {
     const handleChange = event => {
        setEditClaim({ ...editClaim, [event.target.id] : event.target.value});
     }
+
+        // const formReducer = (state, data) => {
+    //     return {...state, [data.field] : data.value}
+    // }
+
+    // const [editClaim, dispatch] = useReducer(formReducer, claim);
 
     const handleSubmit = (event) => {
         setMessage("Saving...");
