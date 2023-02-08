@@ -50,15 +50,14 @@ const AddClaim = () => {
                 }
                 else{
                     addNewClaim(newClaim, currentUser.user.name, currentUser.user.password)
-                    .then( response => {
-                        if (response.status === 200) {
-                            setMessage("New transaction added with id " + response.data.id);
-                            navigate(`/claim/${response.data.id}`);
-                        }
-                        else {
-                            setMessage("Something went wrong - status code was " + response.status);
-                        }
-                        
+                        .then( response => {
+                            if (response.status === 200) {
+                                setMessage("New transaction added with id " + response.data.id);
+                                navigate(`/claim/${response.data.id}`);
+                            }
+                            else {
+                                setMessage("Something went wrong - status code was " + response.status);
+                            }
                     } )
                     .catch( error => {
                         setMessage("Something went wrong - " + error);
@@ -76,28 +75,28 @@ const AddClaim = () => {
     const propertyFields = viewPropertyFields &&
     <div>
         <label htmlFor="propertyAddress">Property Address *</label>
-        <input type="text" id="propertyAddress" placeholder="Property Address" value={newClaim.propertyAddress} onChange={handleChange}/>
+        <input type="text" id="propertyAddress" placeholder="Property Address" value={newClaim.propertyAddress} onChange={handleChange} required/>
     </div>
 
     const motorFields = viewMotorFields &&
     <div>
         <label htmlFor="vehicleMake">Vehicle Make *</label>
-        <input type="text" id="vehicleMake" placeholder="Vehicle Make*" value={newClaim.vehicleMake} onChange={handleChange}/>
+        <input type="text" id="vehicleMake" placeholder="Vehicle Make*" value={newClaim.vehicleMake} onChange={handleChange} required/>
 
         <label htmlFor="vehicleModel">Vehicle model *</label>
-        <input type="text" id="vehicleModel" placeholder="Vehicle model *" value={newClaim.vehicleModel} onChange={handleChange}/>
+        <input type="text" id="vehicleModel" placeholder="Vehicle model *" value={newClaim.vehicleModel} onChange={handleChange} required/>
 
         <label htmlFor="vehicleYear">Vehicle Manufacture Year *</label>
-        <input type="text" id="vehicleYear" placeholder="Vehicle Manufacture Year" value={newClaim.vehicleYear} onChange={handleChange}/>
+        <input type="text" id="vehicleYear" placeholder="Vehicle Manufacture Year" value={newClaim.vehicleYear} onChange={handleChange} required/>
     </div>
 
     const petFields = viewPetFields &&
     <div>
         <label htmlFor="animalType">Animal Type *</label>
-        <input type="text" id="animalType" placeholder="Animal Type" value={newClaim.animalType} onChange={handleChange}/>
+        <input type="text" id="animalType" placeholder="Animal Type" value={newClaim.animalType} onChange={handleChange} required/>
 
         <label htmlFor="animalBreed">Animal Breed *</label>
-        <input type="text" id="animalBreed" placeholder="Animal Breed" value={newClaim.animalBreed} onChange={handleChange}/>
+        <input type="text" id="animalBreed" placeholder="Animal Breed" value={newClaim.animalBreed} onChange={handleChange} required/>
     </div>
 
     return (
@@ -110,13 +109,13 @@ const AddClaim = () => {
         <div className="container form card rounded shadow p-3">
             <form className="addClaimsForm" onSubmit={handleSubmit}  >
                 <label htmlFor="policyNumber">Policy Number *</label>
-                <input type="text" id="policyNumber" placeholder="Policy Number" value={newClaim.policyNumber} onChange={handleChange} />
+                <input type="number" id="policyNumber" placeholder="Policy Number" value={newClaim.policyNumber} onChange={handleChange} required/>
 
                 <label htmlFor="date">Date *</label>
-                <input type="date" id="date" value={newClaim.date} onChange={handleChange}/>
+                <input type="date" id="date" value={newClaim.date} onChange={handleChange} required/>
 
                 <label htmlFor="title">Title *</label>
-                <select id="title" value={newClaim.title} onChange={handleChange}>
+                <select id="title" value={newClaim.title} onChange={handleChange} required>
                 <option value="" disabled={false}> ---select---</option>
                     <option value="Mr">Mr</option>
                     <option value="Ms">Ms</option>
@@ -124,13 +123,13 @@ const AddClaim = () => {
                 </select>
 
                 <label htmlFor="forename">Forename *</label>
-                <input type="text"  id="forename" placeholder="Forename" value={newClaim.forename} onChange={handleChange}/>
+                <input type="text"  id="forename" placeholder="Forename" value={newClaim.forename} onChange={handleChange} required/>
 
                 <label htmlFor="surname">Surname *</label>
-                <input type="text"  id="surname" placeholder="Surname" value={newClaim.surname} onChange={handleChange}/>
+                <input type="text"  id="surname" placeholder="Surname" value={newClaim.surname} onChange={handleChange} required/>
 
                 <label htmlFor="insuranceType">Insurance Type *</label>
-                <select id="insuranceType" value={chosenOption} 
+                <select id="insuranceType" value={chosenOption} required
                 onChange={(e) => {
                     setChosenOption(e.target.value);
                     if(e.target.value === "Property") {
@@ -165,13 +164,13 @@ const AddClaim = () => {
                 {petFields}
 
                 <label htmlFor="amount">Amount *</label>
-                <input type="number"  id="amount" placeholder="£" value={newClaim.amount} onChange={handleChange}/>
+                <input type="number"  id="amount" placeholder="£" value={newClaim.amount} onChange={handleChange} required/>
 
                 <label htmlFor="reason">Reason *</label>
-                <textarea type="text"  id="reason" placeholder="Reason" value={newClaim.reason} onChange={handleChange} rows="4" cols="30"/>
+                <textarea type="text"  id="reason" placeholder="Reason" value={newClaim.reason} onChange={handleChange} rows="4" cols="30" required/>
                 <br></br>
                 <label htmlFor="updates">Updates *</label>
-                <textarea type="text"  id="updates" placeholder="Updates" value={newClaim.updates} onChange={handleChange} rows="4" cols="30"/>
+                <textarea type="text"  id="updates" placeholder="Updates" value={newClaim.updates} onChange={handleChange} rows="4" cols="30" required/>
                 <br></br>
                 <button className="button text-center" type="submit" >Save</button>
                 <div>{message}</div>

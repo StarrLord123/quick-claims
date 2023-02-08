@@ -1,4 +1,4 @@
-import { useContext, useReducer, useState, useEffect } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { getClaimById, updateClaim, getAllClaimsForPolicyNumber } from '../../data/DataFunctions';
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
@@ -65,12 +65,6 @@ const EditClaim = () => {
        setEditClaim({ ...editClaim, [event.target.id] : event.target.value});
     }
 
-        // const formReducer = (state, data) => {
-    //     return {...state, [data.field] : data.value}
-    // }
-
-    // const [editClaim, dispatch] = useReducer(formReducer, claim);
-
     const handleSubmit = (event) => {
         setMessage("Saving...");
         event.preventDefault();
@@ -124,13 +118,13 @@ const EditClaim = () => {
             <div className="container form card rounded shadow p-3">
                 <form className="editClaimsForm" onSubmit={handleSubmit}  >
                     <label htmlFor="policyNumber">Policy Number *</label>
-                    <input type="number" id="policyNumber" value={editClaim.policyNumber}  onChange={handleChange} />
+                    <input type="number" id="policyNumber" value={editClaim.policyNumber}  onChange={handleChange} required />
 
                     <label htmlFor="date">Date *</label>
-                    <input type="date" id="date" value={editClaim.date}  onChange={handleChange}/>
+                    <input type="date" id="date" value={editClaim.date}  onChange={handleChange} required/>
 
                     <label htmlFor="title">Title *</label>
-                    <select id="title" value={editClaim.title}  onChange={handleChange}>
+                    <select id="title" value={editClaim.title}  onChange={handleChange} required>
                     <option value="" disabled={false}> ---select---</option>
                         <option value="Mr">Mr</option>
                         <option value="Ms">Ms</option>
@@ -138,13 +132,13 @@ const EditClaim = () => {
                     </select>
 
                     <label htmlFor="forename">Forename *</label>
-                    <input type="text"  id="forename" value={editClaim.forename}  onChange={handleChange}/>
+                    <input type="text"  id="forename" value={editClaim.forename}  onChange={handleChange} required/>
 
                     <label htmlFor="surname">Surname *</label>
-                    <input type="text"  id="surname" value={editClaim.surname}  onChange={handleChange}/>
+                    <input type="text"  id="surname" value={editClaim.surname}  onChange={handleChange} required/>
 
                     <label htmlFor="insuranceType">Insurance Type *</label>
-                    <select id="insuranceType" value={chosenOption} 
+                    <select id="insuranceType" value={chosenOption} required
                     onChange={(e) => {
                         setChosenOption(e.target.value);
                         if(e.target.value === "Property") {
@@ -177,39 +171,39 @@ const EditClaim = () => {
                     {viewPropertyFields &&
                         <div>
                             <label htmlFor="propertyAddress">Property Address *</label>
-                            <input type="text" id="propertyAddress" placeholder="Property Address" value={editClaim.propertyAddress} onChange={handleChange}/>
+                            <input type="text" id="propertyAddress" placeholder="Property Address" value={editClaim.propertyAddress} onChange={handleChange} required/>
                         </div>}
                     {viewMotorFields &&
                         <div>
                             <label htmlFor="vehicleMake">Vehicle Make *</label>
-                            <input type="text" id="vehicleMake" placeholder="Vehicle Make*" value={editClaim.vehicleMake} onChange={handleChange}/>
+                            <input type="text" id="vehicleMake" placeholder="Vehicle Make*" value={editClaim.vehicleMake} onChange={handleChange} required/>
 
                             <label htmlFor="vehicleModel">Vehicle model *</label>
-                            <input type="text" id="vehicleModel" placeholder="Vehicle model *" value={editClaim.vehicleModel} onChange={handleChange}/>
+                            <input type="text" id="vehicleModel" placeholder="Vehicle model *" value={editClaim.vehicleModel} onChange={handleChange} required/>
 
                             <label htmlFor="vehicleYear">Vehicle Manufacture Year *</label>
-                            <input type="text" id="vehicleYear" placeholder="Vehicle Manufacture Year" value={editClaim.vehicleYear} onChange={handleChange}/>
+                            <input type="text" id="vehicleYear" placeholder="Vehicle Manufacture Year" value={editClaim.vehicleYear} onChange={handleChange} required/>
                         </div>}
                     {viewPetFields &&
                         <div>
                             <label htmlFor="animalType">Animal Type *</label>
-                            <input type="text" id="animalType" placeholder="Animal Type" value={editClaim.animalType} onChange={handleChange}/>
+                            <input type="text" id="animalType" placeholder="Animal Type" value={editClaim.animalType} onChange={handleChange} required/>
 
                             <label htmlFor="animalBreed">Animal Breed *</label>
-                            <input type="text" id="animalBreed" placeholder="Animal Breed" value={editClaim.animalBreed} onChange={handleChange}/>
+                            <input type="text" id="animalBreed" placeholder="Animal Breed" value={editClaim.animalBreed} onChange={handleChange} required/>
                         </div>}
 
                     <label htmlFor="amount">Amount *</label>
-                    <input type="text"  id="amount" value={editClaim.amount}  onChange={handleChange}/>
+                    <input type="text"  id="amount" value={editClaim.amount}  onChange={handleChange} required/>
 
                     <label htmlFor="reason">Reason *</label>
-                    <textarea type="text"  id="reason" value={editClaim.reason}  onChange={handleChange} rows="4" cols="30"/>
+                    <textarea type="text"  id="reason" value={editClaim.reason}  onChange={handleChange} rows="4" cols="30" required/>
                     <br></br>
                     <label htmlFor="updates">Updates *</label>
-                    <textarea type="text"  id="updates" value={editClaim.updates} onChange={handleChange} rows="4" cols="30"/>
+                    <textarea type="text"  id="updates" value={editClaim.updates} onChange={handleChange} rows="4" cols="30" required/>
                     <br></br>
                     <label htmlFor="status">Status *</label>
-                    <select id="status" value={editClaim.status}  onChange={handleChange}>
+                    <select id="status" value={editClaim.status}  onChange={handleChange} required>
                     <option value="" disabled={false}> ---select---</option>
                         <option value="new claim">New Claim - Not yet assessed</option>
                         <option value="assessed">Assessed - Being worked on</option>

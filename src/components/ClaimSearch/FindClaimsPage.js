@@ -1,5 +1,4 @@
 import Claims from "./Claims";
-import ClaimSearch from "./ClaimSearch";
 import {useParams} from 'react-router-dom';
 import { useEffect } from "react";
 
@@ -22,15 +21,13 @@ const FindClaimsPage = (props) => {
     } , []);
 
     return (
-
-            <div className="container">
-                <div className="text-center">
-                    <h1>Search results for: {props.searchTerm}</h1>
-                </div>
-
-                <Claims searchTerm={props.searchTerm}  />
+        <div className="container">
+            <div className="text-center">
+                <h1>Search results for: {props.searchTerm}</h1>
             </div>
-        );
+            <Claims searchTerm={props.searchTerm}  />
+        </div>
+    );
 }
 
 export default FindClaimsPage;

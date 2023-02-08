@@ -17,6 +17,9 @@ const Welcome = () => {
                                 SpeedyClaims is a platform where you can add claims, view claims by status, and search
                                 for specific claims. You can also view claim details and edit.
                             </p>
+                            <p className="card-text">
+                                Please log in to access the platform.
+                            </p>
                         </div>
                     </div>
                 </div>

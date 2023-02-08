@@ -39,8 +39,8 @@ const Login = () => {
     <div>
         <div className="container">
             <div className="text-center">
-                    <h1>Log In</h1>
-                </div>
+                <h1>Log In</h1>
+            </div>
             <div className="container form card rounded shadow p-3">
                 <form onSubmit={submitForm} >
                     <label htmlFor="name">Username*</label>

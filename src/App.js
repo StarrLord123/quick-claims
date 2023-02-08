@@ -16,6 +16,7 @@ import { UserContext } from "./components/contexts/UserContext";
 import { BrowserRouter } from 'react-router-dom';
 import store from './store/store';
 import ProtectedRoute from './components/ProtectedRoute';
+import axios from "axios";
 
 const App = () => {
 

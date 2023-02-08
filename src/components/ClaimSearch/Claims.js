@@ -66,8 +66,7 @@ const Claims = (props) => {
                     </tr>
                 </thead>
                 <tbody>
-                {claims
-                    
+                {claims    
                     .map( (claim, index)  => {
                     return <ClaimSearchTableRow key={index} id={claim.id} policyNumber={claim.policyNumber} insuranceType={claim.insuranceType} surname={claim.surname} 
                     updates={claim.updates} status={claim.status} details/> })}

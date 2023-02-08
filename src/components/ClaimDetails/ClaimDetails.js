@@ -130,7 +130,7 @@ const ClaimDetails = () =>
                                 </tr>
                             </tbody>
                         </table>
-                    {(claim.status === "new claim"|| claim.status === "assessed" || claim.status === "accepted - awaiting payment" || claim.status === "high value")  
+                    {(claim.status === "new claim"|| claim.status === "assessed" || claim.status === "accepted - awaiting payment" || claim.status === "high value") &&  currentUser.user.role === "MANAGER" 
                         && <button className="button"><NavLink className="nav-link" to={`/edit/${claim.id}` }>Edit</NavLink></button>}
                 </div>
                 

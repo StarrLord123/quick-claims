@@ -49,14 +49,20 @@ function AddNoteTable(props) {
     }
 
     const addNote = () => {
-        setNotes([...notes, newNote]);
-        setNewNote({});
+        if (Object.values(newNote).some(val => val)) {
+            setNotes([...notes, newNote]);
+            setNewNote({});
+        }
     };
 
     const handleChange = (e, index) => {
         let notesCopy = [...notes];
         notesCopy[index][e.target.name] = e.target.value;
         setNotes(notesCopy);
+      };
+
+      const isAddButtonDisabled = () => {
+        return !newNote.note || !newNote.date || !newNote.completed;
       };
 
     const handleSubmit = (event) => {
@@ -89,11 +95,6 @@ function AddNoteTable(props) {
         navigate(`/claim/${+claimId}`);
     } 
 
-    const displayTime = () => {
-        var date = new Date();
-        document.getElementById("current-time").innerHTML = date.toLocaleString();
-    }
-
     return <>
             {isLoading && <p style={{textAlign:"center"}} >Please wait... loading</p>}
             {!isLoading &&
@@ -103,7 +104,8 @@ function AddNoteTable(props) {
                             <th>Note/Task</th>
                             <th>Date</th>
                             <th>Completed</th>
-                            <th></th>
+                            {(props.status === "new claim"|| props.status === "assessed" || props.status === "accepted - awaiting payment" || props.status === "high value") && currentUser.user.role === "MANAGER"
+                            && <th></th>}
                         </tr>
                 </thead>
                 <tbody>
@@ -117,7 +119,7 @@ function AddNoteTable(props) {
                                     value={note.note}
                                     onChange={(e) => handleChange(e, index)}
                                     id="note"
-                                    disabled={note.completed === "Completed" || props.status === "rejected" || props.status === "accepted - paid"}
+                                    disabled={note.completed === "Completed" || props.status === "rejected" || props.status === "accepted - paid" || currentUser.user.role === "USER"}
                                     />
                                 </td>
                                 <td>
@@ -127,30 +129,32 @@ function AddNoteTable(props) {
                                     value={note.date}
                                     onChange={(e) => handleChange(e, index)}
                                     id="date"
-                                    disabled={note.completed === "Completed" || props.status === "rejected" || props.status === "accepted - paid"}
+                                    disabled={note.completed === "Completed" || props.status === "rejected" || props.status === "accepted - paid" || currentUser.user.role === "USER"}
                                     />
                                 </td>
                                 <td>
-                                    <select id="completed" name="completed" value={note.completed} disabled={note.completed === "Completed" || props.status === "rejected" || props.status === "accepted - paid"} onChange={(e) => handleChange(e, index)}>
+                                    <select id="completed" name="completed" value={note.completed} disabled={note.completed === "Completed" || props.status === "rejected" || props.status === "accepted - paid" || currentUser.user.role === "USER"} onChange={(e) => handleChange(e, index)}>
                                         <option value="" disabled={false}> ---select---</option>
                                         <option value="Not Completed">Task Not Completed</option>
                                         <option value="Completed">Task Completed</option>
                                         <option value="Note">Note</option>
                                     </select>
                                 </td>
-                                <td>
-                                </td>
+                                {(props.status === "new claim"|| props.status === "assessed" || props.status === "accepted - awaiting payment" || props.status === "high value") && currentUser.user.role === "MANAGER"
+                                && <td>
+                                </td>}
                             </tr>
                         );
                     })}
 
-                        {<tr>
+                        {(props.status === "new claim"|| props.status === "assessed" || props.status === "accepted - awaiting payment" || props.status === "high value") && currentUser.user.role === "MANAGER"
+                        && <tr>
                             <td>
                             <input
                                 type="text"
                                 name="note"
                                 value={newNote.note || ''}
-                                disabled={props.status === "rejected" || props.status === "accepted - paid"}
+                                disabled={props.status === "rejected" || props.status === "accepted - paid" || currentUser.user.role === "USER"}
                                 onChange={e => setNewNote({ ...newNote, [e.target.name]: e.target.value })}
                                 />
                             </td>
@@ -159,12 +163,12 @@ function AddNoteTable(props) {
                                 type="date"
                                 name="date"
                                 value={newNote.date || ''}
-                                disabled={props.status === "rejected" || props.status === "accepted - paid"}
+                                disabled={props.status === "rejected" || props.status === "accepted - paid" || currentUser.user.role === "USER"}
                                 onChange={e => setNewNote({ ...newNote, [e.target.name]: e.target.value })}
                             />
                             </td>
                             <td>
-                                <select name="completed" value={newNote.completed || ''} disabled={props.status === "rejected" || props.status === "accepted - paid"} onChange={e =>setNewNote({ ...newNote, [e.target.name]: e.target.value })}>
+                                <select name="completed" value={newNote.completed || ''} disabled={props.status === "rejected" || props.status === "accepted - paid" || currentUser.user.role === "USER"} onChange={e =>setNewNote({ ...newNote, [e.target.name]: e.target.value })}>
                                     <option value="" disabled={false}> ---select---</option>
                                     <option value="Not Completed">Task Not Completed</option>
                                     <option value="Completed">Task Completed</option>
@@ -172,20 +176,22 @@ function AddNoteTable(props) {
                                 </select>
                             </td>
 
-                            <td>
-                            {(props.status === "new props"|| props.status === "assessed" || props.status === "accepted - awaiting payment" || props.status === "high value")
-                            && <button
+                            {(props.status === "new claim"|| props.status === "assessed" || props.status === "accepted - awaiting payment" || props.status === "high value") && currentUser.user.role === "MANAGER"
+                            && <td>
+                            <button
                                 className="button text-center"
+                                disabled={isAddButtonDisabled()}
                                 onClick={addNote}>Add New Row
-                            </button>}
-                            </td>
+                            </button>
+                            </td>}
                         </tr>
                     }
                 </tbody>
             </table>}
-            {(props.status === "new props"|| props.status === "assessed" || props.status === "accepted - awaiting payment" || props.status === "high value")
+            {(props.status === "new claim"|| props.status === "assessed" || props.status === "accepted - awaiting payment" || props.status === "high value") && currentUser.user.role === "MANAGER"
                 && <button
                 className="button text-center"
+                
                 onClick={handleSubmit}>Save Notes
             </button>}
             <div>{message}</div>

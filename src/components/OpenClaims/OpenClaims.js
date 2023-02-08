@@ -61,26 +61,26 @@ const Claims = () => {
             </div>
                 {isLoading && <p style={{textAlign:"center"}} >Please wait... loading</p>}
                 {!isLoading &&
-                    <table className="openClaimsTable table table-striped table-responsive">
-                        <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Policy #</th>
-                            <th>Type</th>
-                            <th>Surname</th>
-                            <th>Updates</th>
-                            <th>Status</th>
-                            <th>Details</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {claims
-                            .map( (claim, index)  => {
-                            return claim.status === selectedStatus && <OpenClaimsTableRow key={index} id={claim.id} policyNumber={claim.policyNumber} insuranceType={claim.insuranceType} surname={claim.surname} 
-                            updates={claim.updates} status={claim.status} details/> })}
-                        </tbody>
-                    </table>}
-                </div>
+                <table className="openClaimsTable table table-striped table-responsive">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Policy #</th>
+                        <th>Type</th>
+                        <th>Surname</th>
+                        <th>Updates</th>
+                        <th>Status</th>
+                        <th>Details</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {claims
+                        .map( (claim, index)  => {
+                        return claim.status === selectedStatus && <OpenClaimsTableRow key={index} id={claim.id} policyNumber={claim.policyNumber} insuranceType={claim.insuranceType} surname={claim.surname} 
+                        updates={claim.updates} status={claim.status} details/> })}
+                    </tbody>
+                </table>}
+            </div>
         </>
     );
 }
