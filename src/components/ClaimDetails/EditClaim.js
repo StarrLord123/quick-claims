@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from 'react'
-import { getClaimById, updateClaim, getAllClaimsForPolicyNumber } from '../../data/DataFunctions';
+import { getClaimById, updateClaim, getAllClaimsForPolicyNumber, getAllNotesForClaim } from '../../data/DataFunctions';
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import './EditClaim.css'
@@ -12,6 +12,7 @@ const EditClaim = () => {
 
     const [claim, setClaim] = useState([]);
     const [editClaim, setEditClaim] = useState([]);
+    const [notes, setNotes] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [message, setMessage] = useState("");
     const currentUser = useContext(UserContext);
@@ -24,6 +25,17 @@ const EditClaim = () => {
                 setIsLoading(false);
                 setClaim(response.data);
                 setEditClaim(response.data)
+                getAllNotesForClaim(+claimId, currentUser.user.name, currentUser.user.password)
+                    .then ( response => {
+                        if (response.status === 200) {
+                            setNotes(response.data)
+                        }
+                        else {
+                            console.log("something went wrong", response.status)
+                        }})
+                    .catch( error => {
+                        console.log("something went wrong", error);
+                    });  
                 setChosenOption(response.data.insuranceType);
                 if(response.data.insuranceType === "Property") {
                     setViewPropertyFields(true);
@@ -57,13 +69,17 @@ const EditClaim = () => {
 
     useEffect( ()=> {
         loadData();
-        }, [claimId] );
+    }, [claimId] );
 
     const navigate = useNavigate();
 
     const handleChange = event => {
        setEditClaim({ ...editClaim, [event.target.id] : event.target.value});
     }
+
+    const haveNotCompleteNotes = (notes) => {
+        return notes.some(note => note.completed === 'Not Completed');
+      };
 
     const handleSubmit = (event) => {
         setMessage("Saving...");
@@ -72,8 +88,6 @@ const EditClaim = () => {
         editClaim.insuranceType = chosenOption;
 
         editClaim.id = +claimId;
-
-        console.log("Policy Number", editClaim.policyNumber);
         
         getAllClaimsForPolicyNumber(editClaim.policyNumber, currentUser.user.name, currentUser.user.password)
         .then( response => {
@@ -98,6 +112,9 @@ const EditClaim = () => {
                 navigate(`/claim/${editClaim.id}`);
             }
         })       
+        .catch( error => {
+            setMessage("Something went wrong - " + error);
+        })
     } 
 
     const [viewPropertyFields, setViewPropertyFields] = useState(false);
@@ -208,8 +225,8 @@ const EditClaim = () => {
                         <option value="new claim">New Claim - Not yet assessed</option>
                         <option value="assessed">Assessed - Being worked on</option>
                         <option value="rejected">Rejected</option>
-                        <option value="accepted - awaiting payment">Accepted - Awaiting payment</option>
-                        <option value="accepted - paid">Accepted - Paid</option>
+                        {!haveNotCompleteNotes(notes) && <option value="accepted - awaiting payment">Accepted - Awaiting payment</option>}
+                        {!haveNotCompleteNotes(notes) && <option value="accepted - paid">Accepted - Paid</option>}
                         <option value="high value">High Value Claim</option>
                     </select>
                     <br></br>

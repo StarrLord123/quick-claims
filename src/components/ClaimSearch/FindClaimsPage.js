@@ -5,8 +5,6 @@ import { useEffect } from "react";
 const FindClaimsPage = (props) => {
 
     const params = useParams();
-    console.log(params.id)
-    console.log(props.searchTerm)
 
     useEffect( ()=> {
         if (params.id != null && params.id !== props.searchTerm) {

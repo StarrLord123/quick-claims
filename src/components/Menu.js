@@ -27,7 +27,7 @@ const Menu = () =>
         <nav>  
             <div className="container menu heading d-flex flex-row justify-content-between align-items-left">
                 <button className="button"><NavLink className="nav-link" to="/addclaim" >ADD CLAIM</NavLink></button>
-                <button className="button"><NavLink className="nav-link" to="/openclaims">OPEN CLAIMS</NavLink></button>
+                <button className="button"><NavLink className="nav-link" to="/openclaims">CLAIMS BY STATUS</NavLink></button>
                 <button className="button"><NavLink className="nav-link" to="/claimsearch">SEARCH CLAIMS</NavLink></button>
                 {currentUser.user.name === "" && <button className="button"><NavLink className="nav-link" to="/login">LOG IN</NavLink></button>}
                 {currentUser.user.name !== "" && <button className="button" onClick={logout}>LOG OUT</button>}

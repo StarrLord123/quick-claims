@@ -57,12 +57,14 @@ const AddClaim = () => {
                             }
                             else {
                                 setMessage("Something went wrong - status code was " + response.status);
-                            }
-                    } )
-                    .catch( error => {
-                        setMessage("Something went wrong - " + error);
-                    })
+                            }})
+                        .catch( error => {
+                            setMessage("Something went wrong - " + error);
+                        })
                 }
+            })
+            .catch( error => {
+                setMessage("Something went wrong - " + error);
             })       
     } 
     

@@ -33,8 +33,12 @@ const ClaimDetails = () =>
     }
 
     useEffect( ()=> {
-            loadData();
-        }, [] );
+        loadData();
+    }, [] );
+
+    useEffect( ()=> {
+        loadData();
+    }, [+claimId] );
 
    return (<>
             {isLoading && <p style={{textAlign:"center"}} >Please wait... loading</p>}
@@ -77,7 +81,7 @@ const ClaimDetails = () =>
                                 </tr>
                                 <tr>
                                     <td>Amount:</td>
-                                    <td>{claim.amount}</td>
+                                    <td>£{claim.amount}</td>
                                 </tr>
 
                                 {(claim.insuranceType === "Property") &&

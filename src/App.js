@@ -10,13 +10,11 @@ import ClaimSearch from './components/ClaimSearch/ClaimSearch';
 import ClaimDetails from "./components/ClaimDetails/ClaimDetails";
 import EditClaim from "./components/ClaimDetails/EditClaim";
 import FindClaimsPage from "./components/ClaimSearch/FindClaimsPage";
-import { getAllClaimsAxios } from "./data/DataFunctions";
 import Login from "./components/Login";
 import { UserContext } from "./components/contexts/UserContext";
 import { BrowserRouter } from 'react-router-dom';
 import store from './store/store';
 import ProtectedRoute from './components/ProtectedRoute';
-import axios from "axios";
 
 const App = () => {
 
